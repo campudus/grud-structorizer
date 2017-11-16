@@ -1,0 +1,51 @@
+{
+  "name": "grud-structorizer",
+  "version": "1.0.0",
+  "description": "Core library for building schemas",
+  "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "compile": "babel -q --ignore '*.spec.js' -d ./lib ./src",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
+    "lint:watch": "eslint ./src -w",
+    "prepare": "npm run compile -s && npm run lint -s && npm run test -s",
+    "test": "jest --testPathPattern='src'",
+    "test:coverage": "npm run test -- --coverage",
+    "test:watch": "npm run test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/campudus/grud-aggregator.git"
+  },
+  "keywords": [
+    "tableaux",
+    "grud",
+    "schema",
+    "structure"
+  ],
+  "author": "Campudus GmbH",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/campudus/grud-aggregator",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "1.6.1",
+    "babel-register": "6.26.0",
+    "eslint": "4.11.0",
+    "eslint-plugin-jest": "^21.3.2",
+    "eslint-plugin-promise": "3.6.0",
+    "eslint-plugin-react": "7.4.0",
+    "eslint-plugin-standard": "3.0.1",
+    "jest": "^21.2.1",
+    "source-map-support": "0.5.0"
+  },
+  "dependencies": {
+    "lodash": "4.17.4",
+    "minimist": "1.2.0",
+    "sync-request": "4.1.0"
+  }
+}
