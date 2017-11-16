@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "compile": "babel -q --ignore '*.spec.js' -d ./lib ./src",
-    "prepare": "npm run compile -s && npm run lint -s && npm run test -s",
+    "prepublishOnly": "npm run compile -s && npm run lint -s && npm run test -s",
     "lint": "eslint ./src --ignore-pattern *.spec.js*",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --testPathPattern='src'",
