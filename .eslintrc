@@ -27,7 +27,8 @@
   "globals": {
     "document": false,
     "navigator": false,
-    "window": false
+    "window": false,
+    "jest/globals": true
   },
 
   "rules": {
@@ -161,6 +162,10 @@
     "react/jsx-uses-react": "warn",
     "react/jsx-uses-vars": "warn",
 
-    "jest/globals": true
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 }
