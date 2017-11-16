@@ -392,6 +392,18 @@ function tableauxStructure(baseUrl) {
       return this;
     }
 
+    toOrdering(toOrdering) {
+      if (this.column.kind !== "link") {
+        throw new Error("column " + this.column.name + " should be of type link to set 'toOrdering(...)'");
+      } else if (typeof this.column.singleDirection !== "undefined") {
+        throw new Error("column " + this.column.name + " can't have 'toOrdering(...)' and 'singleDirection()'");
+      }
+
+      this.column.toOrdering = toOrdering || null;
+
+      return this;
+    }
+
     singleDirection() {
       if (this.column.kind !== "link") {
         throw new Error("column " + this.column.name + " should be of type link to set 'singleDirection()'");
