@@ -14,7 +14,7 @@
     "test": "jest --testPathPattern='src'",
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch",
-    "jsdoc": "jsdoc -r README.md -t ./node_modules/docdash/ -d ./docs ./src"
+    "jsdoc": "jsdoc -r -R README.md -t ./node_modules/docdash/ -d ./docs ./src"
   },
   "repository": {
     "type": "git",

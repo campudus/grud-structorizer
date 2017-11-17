@@ -4,7 +4,7 @@ Small synchronous JS SDK for building GRUD schemas
 
 ## Documentation
 
-See [docs](docs/) for API documentation
+See [docs](https://campudus.github.io/grud-structorizer) for API documentation
 
 ## Example
 
@@ -30,7 +30,7 @@ newTable.createRowByObj({rowIdentifier: "Test"});
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md)
+See [CHANGELOG.md](https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md)
 
 ## License
 
