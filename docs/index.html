@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ColumnBuilder.html">ColumnBuilder</a><ul class='methods'><li data-type='method'><a href="ColumnBuilder.html#addConstraint">addConstraint</a></li><li data-type='method'><a href="ColumnBuilder.html#description">description</a></li><li data-type='method'><a href="ColumnBuilder.html#displayName">displayName</a></li><li data-type='method'><a href="ColumnBuilder.html#groups">groups</a></li><li data-type='method'><a href="ColumnBuilder.html#identifier">identifier</a></li><li data-type='method'><a href="ColumnBuilder.html#languageType">languageType</a></li><li data-type='method'><a href="ColumnBuilder.html#link">link</a></li><li data-type='method'><a href="ColumnBuilder.html#multilanguage">multilanguage</a></li><li data-type='method'><a href="ColumnBuilder.html#ordering">ordering</a></li><li data-type='method'><a href="ColumnBuilder.html#simpleLink">simpleLink</a></li><li data-type='method'><a href="ColumnBuilder.html#singleDirection">singleDirection</a></li><li data-type='method'><a href="ColumnBuilder.html#toDescription">toDescription</a></li><li data-type='method'><a href="ColumnBuilder.html#toDisplayName">toDisplayName</a></li><li data-type='method'><a href="ColumnBuilder.html#toName">toName</a></li><li data-type='method'><a href="ColumnBuilder.html#toOrdering">toOrdering</a></li></ul></li><li><a href="ConstraintBuilder.html">ConstraintBuilder</a><ul class='methods'><li data-type='method'><a href="ConstraintBuilder.html#.cardinality">cardinality</a></li><li data-type='method'><a href="ConstraintBuilder.html#.cardinalityManyToOne">cardinalityManyToOne</a></li><li data-type='method'><a href="ConstraintBuilder.html#.cardinalityOneToMany">cardinalityOneToMany</a></li><li data-type='method'><a href="ConstraintBuilder.html#.cardinalityOneToOne">cardinalityOneToOne</a></li><li data-type='method'><a href="ConstraintBuilder.html#.deleteCascade">deleteCascade</a></li></ul></li><li><a href="Table.html">Table</a><ul class='methods'><li data-type='method'><a href="Table.html#createColumn">createColumn</a></li><li data-type='method'><a href="Table.html#createColumns">createColumns</a></li><li data-type='method'><a href="Table.html#createRow">createRow</a></li><li data-type='method'><a href="Table.html#createRowByObj">createRowByObj</a></li><li data-type='method'><a href="Table.html#createRows">createRows</a></li><li data-type='method'><a href="Table.html#deleteColumn">deleteColumn</a></li><li data-type='method'><a href="Table.html#fetch">fetch</a></li><li data-type='method'><a href="Table.html#findColumn">findColumn</a></li></ul></li><li><a href="TableBuilder.html">TableBuilder</a><ul class='methods'><li data-type='method'><a href="TableBuilder.html#create">create</a></li><li data-type='method'><a href="TableBuilder.html#displayName">displayName</a></li><li data-type='method'><a href="TableBuilder.html#group">group</a></li><li data-type='method'><a href="TableBuilder.html#hidden">hidden</a></li></ul></li><li><a href="Tables.html">Tables</a><ul class='methods'><li data-type='method'><a href="Tables.html#fetch">fetch</a></li><li data-type='method'><a href="Tables.html#find">find</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>grud-structorizer</h1><p>Small synchronous JS SDK for building GRUD schemas</p>
+<h2>Documentation</h2><p>See <a href="docs/">docs</a> for API documentation</p>
+<h2>Example</h2><pre class="prettyprint source lang-javascript"><code>const grudStructorizer = require('grud-structorizer');
+
+const structorizer = grudStructorizer(&quot;http://localhost:8181&quot;);
+
+const TableBuilder = structorizer.TableBuilder;
+const ColumnBuilder = structorizer.ColumnBuilder;
+const ConstraintBuilder = structorizer.ConstraintBuilder;
+
+const newTable = new TableBuilder(&quot;newTable&quot;, &quot;generic&quot;).displayName(&quot;de&quot;, &quot;Neue Tabelle&quot;, &quot;en&quot;, &quot;New table&quot;)
+                                                        .create();
+
+newTable.createColumns([
+  new ColumnBuilder(&quot;rowIdentifier&quot;, &quot;shorttext&quot;).displayName(&quot;de&quot;, &quot;Name&quot;)
+                                                 .identifier()
+]);
+
+newTable.createRowByObj({rowIdentifier: &quot;Test&quot;});</code></pre><h2>Changelog</h2><p>See <a href="CHANGELOG.md">CHANGELOG.md</a></p>
+<h2>License</h2><blockquote>
+<p>Copyright 2016-present Campudus GmbH.</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<pre class="prettyprint source"><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre><p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+</blockquote></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 17 2017 16:58:44 GMT+0100 (CET) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
