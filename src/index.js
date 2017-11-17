@@ -167,10 +167,8 @@ function tableauxStructure(baseUrl) {
         throw new Error("table needs to be fetched first, columns should be defined");
       }
 
-      const self = this;
-
-      const columnIdToValueArray = _.map(columnNameToValueObject, function (value, key) {
-        const column = _.find(self.columns, ["name", key]);
+      const columnIdToValueArray = _.map(columnNameToValueObject, (value, key) => {
+        const column = _.find(this.columns, ["name", key]);
 
         if (!column) {
           throw new Error("column '" + key + "' is not defined in table '" + this.name + "'");
