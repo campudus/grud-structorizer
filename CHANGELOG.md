@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.2.1
+
+* add simple JSDoc comments and generate docs
+
 ## 1.1.1
 
 * fix bug in `Table.createRowByObj` in error case

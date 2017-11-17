@@ -1,6 +1,6 @@
 {
   "name": "grud-structorizer",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "Core library for building schemas",
   "main": "lib/index.js",
   "files": [
@@ -8,12 +8,13 @@
   ],
   "scripts": {
     "compile": "babel -q --ignore '*.spec.js' -d ./lib ./src",
-    "prepublishOnly": "npm run compile -s && npm run lint -s && npm run test -s",
+    "prepublishOnly": "npm run compile -s && npm run lint -s && npm run test -s && npm run jsdoc -s",
     "lint": "eslint ./src --ignore-pattern *.spec.js*",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --testPathPattern='src'",
     "test:coverage": "npm run test -- --coverage",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "jsdoc": "jsdoc -r README.md -t ./node_modules/docdash/ -d ./docs ./src"
   },
   "repository": {
     "type": "git",
@@ -34,12 +35,14 @@
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-preset-env": "1.6.1",
     "babel-register": "6.26.0",
+    "docdash": "0.4.0",
     "eslint": "4.11.0",
     "eslint-plugin-jest": "21.3.2",
     "eslint-plugin-promise": "3.6.0",
     "eslint-plugin-react": "7.4.0",
     "eslint-plugin-standard": "3.0.1",
     "jest": "21.2.1",
+    "jsdoc": "3.5.5",
     "source-map-support": "0.5.0"
   },
   "dependencies": {
