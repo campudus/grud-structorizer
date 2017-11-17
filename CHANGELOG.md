@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.1.1
+
+* fix bug in `Table.createRowByObj` in error case
+
 ## 1.1.0
 
 * add new method `toOrdering` to `ColumnBuilder`
