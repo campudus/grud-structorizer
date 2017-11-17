@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>Global - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,58 +27,236 @@
 
 <div id="main">
     
+    <h1 class="page-title">Global</h1>
+    
 
     
 
 
 
+
+<section>
+
+<header>
+    
+        <h2>
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+<dl class="details">
+
     
 
-
-
-
-
-
-
-
+    
 
     
 
+    
 
-    <section class="readme">
-        <article><h1>grud-structorizer</h1><p>Small synchronous JS SDK for building GRUD schemas</p>
-<h2>Documentation</h2><p>See <a href="https://campudus.github.io/grud-structorizer">docs</a> for API documentation</p>
-<h2>Example</h2><pre class="prettyprint source lang-javascript"><code>const grudStructorizer = require('grud-structorizer');
+    
 
-const structorizer = grudStructorizer(&quot;http://localhost:8181&quot;);
+    
 
-const TableBuilder = structorizer.TableBuilder;
-const ColumnBuilder = structorizer.ColumnBuilder;
-const ConstraintBuilder = structorizer.ConstraintBuilder;
+    
 
-const newTable = new TableBuilder(&quot;newTable&quot;, &quot;generic&quot;).displayName(&quot;de&quot;, &quot;Neue Tabelle&quot;, &quot;en&quot;, &quot;New table&quot;)
-                                                        .create();
+    
 
-newTable.createColumns([
-  new ColumnBuilder(&quot;rowIdentifier&quot;, &quot;shorttext&quot;).displayName(&quot;de&quot;, &quot;Name&quot;)
-                                                 .identifier()
-]);
+    
 
-newTable.createRowByObj({rowIdentifier: &quot;Test&quot;});</code></pre><h2>Changelog</h2><p>See <a href="https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
-<h2>License</h2><blockquote>
-<p>Copyright 2016-present Campudus GmbH.</p>
-<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at</p>
-<pre class="prettyprint source"><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre><p>Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.</p>
-</blockquote></article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
+
+
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="ConstraintCardinality">ConstraintCardinality</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line595">line 595</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="ConstraintDeleteCascade">ConstraintDeleteCascade</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line599">line 599</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
 
 
 

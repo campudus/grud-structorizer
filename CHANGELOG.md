@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.3.1
+
+* add TypeScript definitions
+
 ## 1.2.1
 
 * add simple JSDoc comments and generate docs

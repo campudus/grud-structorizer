@@ -69,7 +69,7 @@ function tableauxStructure(baseUrl) {
     /**
      * Searches for a specific table. Fetch tables first
      *
-     * @param tableName
+     * @param tableName {string}
      * @returns {Table}
      */
     find(tableName) {
@@ -87,8 +87,8 @@ function tableauxStructure(baseUrl) {
   class Table {
     /**
      *
-     * @param tableId
-     * @param tableName
+     * @param tableId {number}
+     * @param tableName {string}
      */
     constructor(tableId, tableName) {
       if (typeof tableId !== "number") {
@@ -107,7 +107,7 @@ function tableauxStructure(baseUrl) {
     /**
      * Fetches meta and columns for this Table object.
      *
-     * @param includeRows retrieves rows (default: false)
+     * @param includeRows retrieves rows (default: false) {boolean}
      * @returns {Table}
      */
     fetch(includeRows = false) {
@@ -117,7 +117,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param nameOrId
+     * @param nameOrId {string|number}
      */
     findColumn(nameOrId) {
       if (!this.columns) {
@@ -135,8 +135,8 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param columnBuilderArray
-     * @returns {*}
+     * @param columnBuilderArray {Array.<ConstraintBuilder>}
+     * @returns {Array.<Column>}
      */
     createColumns(columnBuilderArray) {
       if (typeof this.tableId === "undefined") {
@@ -168,7 +168,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param nameOrId
+     * @param nameOrId {string|number}
      */
     deleteColumn(nameOrId) {
       const column = this.findColumn(nameOrId);
@@ -188,7 +188,8 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param columnBuilder
+     * @param columnBuilder {ColumnBuilder}
+     * @return {number} column id
      */
     createColumn(columnBuilder) {
       if (typeof this.tableId === "undefined") {
@@ -212,8 +213,8 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param columnNameToValueObject
-     * @returns {*}
+     * @param columnNameToValueObject {object}
+     * @returns {number} row id
      */
     createRowByObj(columnNameToValueObject) {
       if (!this.columns) {
@@ -238,7 +239,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @returns {*}
+     * @returns {number} row id
      */
     createRow() {
       // convert arguments to array and
@@ -248,9 +249,9 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param rows
-     * @param columns
-     * @returns {*}
+     * @param rows {Array.<Array.<any>>}
+     * @param columns {Array.<number>}
+     * @returns {Array.<number>} array of row ids
      */
     createRows(rows, columns) {
       if (typeof this.tableId === "undefined") {
@@ -277,10 +278,11 @@ function tableauxStructure(baseUrl) {
    *
    */
   class TableBuilder {
+
     /**
      *
-     * @param name
-     * @param type
+     * @param name {string}
+     * @param type {("generic"|"settings")}
      */
     constructor(name, type) {
       this.name = name;
@@ -304,7 +306,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param hidden
+     * @param [hidden=true] {boolean}
      * @returns {TableBuilder}
      */
     hidden(hidden) {
@@ -314,7 +316,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param groupId
+     * @param groupId {number}
      * @returns {TableBuilder}
      */
     group(groupId) {
@@ -343,8 +345,8 @@ function tableauxStructure(baseUrl) {
   class ColumnBuilder {
     /**
      *
-     * @param name
-     * @param kind
+     * @param name {string}
+     * @param kind {string}
      */
     constructor(name, kind) {
       this.column = {
@@ -355,7 +357,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param constraint
+     * @param constraint {ConstraintCardinality|ConstraintDeleteCascade}
      * @returns {ColumnBuilder}
      */
     addConstraint(constraint) {
@@ -386,7 +388,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param ordering
+     * @param ordering {number}
      * @returns {ColumnBuilder}
      */
     ordering(ordering) {
@@ -396,7 +398,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param multilanguage
+     * @param [multilanguage=true] {boolean}
      * @returns {ColumnBuilder}
      */
     multilanguage(multilanguage) {
@@ -411,8 +413,8 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param languageType
-     * @param countryCodes
+     * @param languageType {string}
+     * @param countryCodes {Array.<string>}
      * @returns {ColumnBuilder}
      */
     languageType(languageType, countryCodes) {
@@ -434,7 +436,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param identifier
+     * @param [identifier=true] {boolean}
      * @returns {ColumnBuilder}
      */
     identifier(identifier) {
@@ -444,7 +446,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param toTable
+     * @param toTable {Table|number}
      * @returns {ColumnBuilder}
      */
     simpleLink(toTable) {
@@ -454,7 +456,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param toTable
+     * @param toTable {Table|number}
      * @returns {ColumnBuilder}
      */
     link(toTable) {
@@ -478,7 +480,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param groups
+     * @param groups {Array.<number>}
      * @returns {ColumnBuilder}
      */
     groups(groups) {
@@ -497,7 +499,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param toName
+     * @param toName {string}
      * @returns {ColumnBuilder}
      */
     toName(toName) {
@@ -551,7 +553,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param toOrdering
+     * @param toOrdering {number}
      * @returns {ColumnBuilder}
      */
     toOrdering(toOrdering) {
@@ -591,12 +593,20 @@ function tableauxStructure(baseUrl) {
   }
 
   /**
+   * @typedef {{cardinality: {from: number, to: number}}} ConstraintCardinality
+   */
+
+  /**
+   * @typedef {{deleteCascade: boolean}} ConstraintDeleteCascade
+   */
+
+  /**
    *
    */
   class ConstraintBuilder {
     /**
      *
-     * @returns {{cardinality: {from: number, to: number}}}
+     * @returns {ConstraintCardinality}
      */
     static cardinalityOneToOne() {
       return ConstraintBuilder.cardinality(1, 1);
@@ -604,7 +614,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @returns {{cardinality: {from: number, to: number}}}
+     * @returns {ConstraintCardinality}
      */
     static cardinalityOneToMany() {
       return ConstraintBuilder.cardinality(1, 0);
@@ -612,7 +622,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @returns {{cardinality: {from: number, to: number}}}
+     * @returns {ConstraintCardinality}
      */
     static cardinalityManyToOne() {
       return ConstraintBuilder.cardinality(0, 1);
@@ -620,9 +630,9 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param from: number
-     * @param to: number
-     * @returns {{cardinality: {from: number, to: number}}}
+     * @param from {number}
+     * @param to {number}
+     * @returns {ConstraintCardinality}
      */
     static cardinality(from, to) {
       return {
@@ -635,8 +645,8 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param deleteCascade: boolean
-     * @returns {{deleteCascade: boolean}}
+     * @param deleteCascade {boolean}
+     * @returns {ConstraintDeleteCascade}
      */
     static deleteCascade(deleteCascade) {
       return {
