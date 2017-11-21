@@ -20,7 +20,6 @@
   "plugins": [
     "standard",
     "promise",
-    "react",
     "jest"
   ],
 
@@ -158,9 +157,6 @@
     "standard/computed-property-even-spacing": ["error", "even"],
 
     "promise/param-names": "error",
-
-    "react/jsx-uses-react": "warn",
-    "react/jsx-uses-vars": "warn",
 
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
