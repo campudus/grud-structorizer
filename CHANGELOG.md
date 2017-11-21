@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.5.0
+
+* remove `minimist` dependency
+
 ## 1.4.0
 
 * add a typedef for `Column`
