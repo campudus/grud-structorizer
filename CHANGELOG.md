@@ -1,5 +1,12 @@
 # Release Notes
 
+## 1.4.1
+
+* add a typedef for `Column`
+* add some tests for `ColumnBuilder` and remove `resetSchema` test
+* add type definitions for multi-language methods `displayName()`, `description()`, etc.
+* add argument checks for `languageType()` and `toOrdering()`
+
 ## 1.3.1
 
 * add TypeScript definitions

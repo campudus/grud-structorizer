@@ -16,6 +16,18 @@ declare class Tables {
 
 }
 
+/**
+ * @typedef {object} Column
+ * @property id {number}
+ * @property name {string}
+ * @property kind {string}
+ */
+declare type Column = {
+    id: number;
+    name: string;
+    kind: string;
+};
+
 declare class Table {
     constructor(tableId: number, tableName: string);
 
@@ -35,7 +47,7 @@ declare class Table {
      * @param columnBuilderArray {Array.<ConstraintBuilder>}
      * @returns {Array.<Column>}
      */
-    createColumns(columnBuilderArray: (ConstraintBuilder)[]): any[];
+    createColumns(columnBuilderArray: (ConstraintBuilder)[]): (Column)[];
 
     /**
      * @param nameOrId {string|number}
@@ -72,9 +84,10 @@ declare class TableBuilder {
     constructor(name: string, type: any | any);
 
     /**
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {TableBuilder}
      */
-    displayName(): TableBuilder;
+    displayName(...args: (any | string)[]): TableBuilder;
 
     /**
      * @param [hidden=true] {boolean}
@@ -105,14 +118,16 @@ declare class ColumnBuilder {
     addConstraint(constraint: ConstraintCardinality | ConstraintDeleteCascade): ColumnBuilder;
 
     /**
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
-    displayName(): ColumnBuilder;
+    displayName(...args: (any | string)[]): ColumnBuilder;
 
     /**
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
-    description(): ColumnBuilder;
+    description(...args: (any | string)[]): ColumnBuilder;
 
     /**
      * @param ordering {number}
@@ -128,10 +143,10 @@ declare class ColumnBuilder {
 
     /**
      * @param languageType {string}
-     * @param countryCodes {Array.<string>}
+     * @param [countryCodes=undefined] {Array.<string>}
      * @returns {ColumnBuilder}
      */
-    languageType(languageType: string, countryCodes: string[]): ColumnBuilder;
+    languageType(languageType: string, countryCodes?: string[]): ColumnBuilder;
 
     /**
      * @param [identifier=true] {boolean}
@@ -164,20 +179,22 @@ declare class ColumnBuilder {
     toName(toName: string): ColumnBuilder;
 
     /**
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
-    toDisplayName(): ColumnBuilder;
+    toDisplayName(...args: (any | string)[]): ColumnBuilder;
 
     /**
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
-    toDescription(): ColumnBuilder;
+    toDescription(...args: (any | string)[]): ColumnBuilder;
 
     /**
-     * @param toOrdering {number}
+     * @param toOrdering {number|null}
      * @returns {ColumnBuilder}
      */
-    toOrdering(toOrdering: number): ColumnBuilder;
+    toOrdering(toOrdering: number | any): ColumnBuilder;
 
     /**
      * @returns {ColumnBuilder}
