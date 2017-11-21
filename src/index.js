@@ -297,10 +297,11 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
+     * @param args {object|Array.<string>}
      * @returns {TableBuilder}
      */
-    displayName() {
-      this._displayName = argumentsToMultiLanguageObj(arguments);
+    displayName(...args) {
+      this._displayName = argumentsToMultiLanguageObj(args);
       return this;
     }
 
@@ -370,19 +371,21 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
+     * @param args {object|Array.<string>}
      * @returns {ColumnBuilder}
      */
-    displayName() {
-      this.column.displayName = argumentsToMultiLanguageObj(arguments);
+    displayName(...args) {
+      this.column.displayName = argumentsToMultiLanguageObj(args);
       return this;
     }
 
     /**
      *
+     * @param args {object|Array.<string>}
      * @returns {ColumnBuilder}
      */
-    description() {
-      this.column.description = argumentsToMultiLanguageObj(arguments);
+    description(...args) {
+      this.column.description = argumentsToMultiLanguageObj(args);
       return this;
     }
 
@@ -414,12 +417,16 @@ function tableauxStructure(baseUrl) {
     /**
      *
      * @param languageType {string}
-     * @param countryCodes {Array.<string>}
+     * @param [countryCodes=undefined] {Array.<string>}
      * @returns {ColumnBuilder}
      */
-    languageType(languageType, countryCodes) {
+    languageType(languageType, countryCodes=undefined) {
       switch (languageType) {
         case "country":
+          if (!_.isEmpty(languageType) && (!_.isArray(countryCodes) || _.isEmpty(countryCodes))) {
+            throw new Error("if languageType 'country' argument countryCodes can't be empty", this.column);
+          }
+
           this.column.languageType = languageType;
           this.column.countryCodes = countryCodes;
           break;
@@ -515,9 +522,10 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
+     * @param args {object|Array.<string>}
      * @returns {ColumnBuilder}
      */
-    toDisplayName() {
+    toDisplayName(...args) {
       if (this.column.kind !== "link") {
         throw new Error("column " + this.column.name + " should be of type link to set 'toDisplayName(...)'");
       } else if (typeof this.column.singleDirection !== "undefined") {
@@ -528,15 +536,16 @@ function tableauxStructure(baseUrl) {
         this.column.toDisplayInfos = {};
       }
 
-      this.column.toDisplayInfos.displayName = argumentsToMultiLanguageObj(arguments);
+      this.column.toDisplayInfos.displayName = argumentsToMultiLanguageObj(args);
       return this;
     }
 
     /**
      *
+     * @param args {object|Array.<string>}
      * @returns {ColumnBuilder}
      */
-    toDescription() {
+    toDescription(...args) {
       if (this.column.kind !== "link") {
         throw new Error("column " + this.column.name + " should be of type link to set 'toDisplayName(...)'");
       } else if (typeof this.column.singleDirection !== "undefined") {
@@ -547,13 +556,13 @@ function tableauxStructure(baseUrl) {
         this.column.toDisplayInfos = {};
       }
 
-      this.column.toDisplayInfos.description = argumentsToMultiLanguageObj(arguments);
+      this.column.toDisplayInfos.description = argumentsToMultiLanguageObj(args);
       return this;
     }
 
     /**
      *
-     * @param toOrdering {number}
+     * @param toOrdering {number|null}
      * @returns {ColumnBuilder}
      */
     toOrdering(toOrdering) {
@@ -561,9 +570,11 @@ function tableauxStructure(baseUrl) {
         throw new Error("column " + this.column.name + " should be of type link to set 'toOrdering(...)'");
       } else if (typeof this.column.singleDirection !== "undefined") {
         throw new Error("column " + this.column.name + " can't have 'toOrdering(...)' and 'singleDirection()'");
+      } else if (!_.isNumber(toOrdering) && toOrdering !== null) {
+        throw new Error("toOrdering needs to be called with a number or null", this.column);
       }
 
-      this.column.toOrdering = toOrdering || null;
+      this.column.toOrdering = toOrdering;
 
       return this;
     }
