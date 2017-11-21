@@ -82,6 +82,13 @@ function tableauxStructure(baseUrl) {
   }
 
   /**
+   * @typedef {object} Column
+   * @property id {number}
+   * @property name {string}
+   * @property kind {string}
+   */
+
+  /**
    *
    */
   class Table {
@@ -297,7 +304,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param args {object|Array.<string>}
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {TableBuilder}
      */
     displayName(...args) {
@@ -371,7 +378,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param args {object|Array.<string>}
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
     displayName(...args) {
@@ -381,7 +388,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param args {object|Array.<string>}
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
     description(...args) {
@@ -420,7 +427,7 @@ function tableauxStructure(baseUrl) {
      * @param [countryCodes=undefined] {Array.<string>}
      * @returns {ColumnBuilder}
      */
-    languageType(languageType, countryCodes=undefined) {
+    languageType(languageType, countryCodes = undefined) {
       switch (languageType) {
         case "country":
           if (!_.isEmpty(languageType) && (!_.isArray(countryCodes) || _.isEmpty(countryCodes))) {
@@ -522,7 +529,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param args {object|Array.<string>}
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
     toDisplayName(...args) {
@@ -542,7 +549,7 @@ function tableauxStructure(baseUrl) {
 
     /**
      *
-     * @param args {object|Array.<string>}
+     * @param args {Array.<object|string>} one multi-language object or langtag-value list
      * @returns {ColumnBuilder}
      */
     toDescription(...args) {
