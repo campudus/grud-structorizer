@@ -1,6 +1,7 @@
 "use strict";
 
 const _ = require("lodash");
+const SyncApi = require("./SyncApi");
 
 function argumentsToMultiLanguageObj(argsObj) {
   const args = _.toArray(argsObj);
@@ -41,8 +42,16 @@ function argumentsToMultiLanguageObj(argsObj) {
   return obj;
 }
 
-function tableauxStructure(baseUrl) {
-  const tableaux = require("./syncApi")(baseUrl);
+/**
+ *
+ * @param baseUrl {string}
+ * @param options {object}
+ * @returns {{api: SyncApi, Table: Table, Tables: Tables, TableBuilder: TableBuilder, ColumnBuilder: ColumnBuilder,
+ *   ConstraintBuilder: ConstraintBuilder}}
+ */
+function grudStructorizer(baseUrl, options) {
+
+  const tableaux = new SyncApi(baseUrl, options);
 
   /**
    *
@@ -674,14 +683,7 @@ function tableauxStructure(baseUrl) {
   }
 
   return {
-    api: {
-      "resetSchema": tableaux.resetSchema,
-      "createTable": tableaux.createTable,
-      "createColumn": tableaux.createColumn,
-      "createRow": tableaux.createRow,
-      "fetchTable": tableaux.fetchTable,
-      "doCall": tableaux.doCall
-    },
+    api: tableaux,
 
     Table: Table,
     Tables: Tables,
@@ -691,4 +693,4 @@ function tableauxStructure(baseUrl) {
   };
 }
 
-module.exports = tableauxStructure;
+module.exports = grudStructorizer;
