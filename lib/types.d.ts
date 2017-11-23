@@ -1,3 +1,80 @@
+/**
+ * @typedef {object} SyncApiOptions
+ * @property cookies {object}
+ */
+declare type SyncApiOptions = {
+    cookies: any;
+};
+
+declare class SyncApi {
+    constructor(baseUrl: string, options: SyncApiOptions);
+
+    /**
+     * @param method {string}
+     * @param url {string}
+     * @param [json] {object}
+     * @param [nonce] {string}
+     */
+    doCall(method: string, url: string, json?: any, nonce?: string): void;
+
+    /**
+     * @param nonce {string}
+     */
+    resetSchema(nonce: string): void;
+
+    /**
+     * @param tableId {number}
+     * @param [includeRows=false] {boolean}
+     */
+    fetchTable(tableId: number, includeRows?: boolean): void;
+
+    /**
+     * @param name {string}
+     * @param hidden {boolean}
+     * @param displayName {object} multi-language object
+     * @param type {string}
+     * @param group {number}
+     * @returns {object}
+     */
+    createTable(name: string, hidden: boolean, displayName: any, type: string, group: number): any;
+
+    /**
+     * @param tableId
+     * @param columnObjArray
+     */
+    createColumns(tableId: any, columnObjArray: any): void;
+
+    /**
+     * @param tableId
+     * @param columnObject
+     */
+    createColumn(tableId: any, columnObject: any): void;
+
+    /**
+     * @param tableId
+     * @param columnIds
+     * @param values
+     * @returns {*}
+     */
+    createRow(tableId: any, columnIds: any, values: any): any;
+
+    /**
+     * @param tableId
+     * @param columnIds
+     * @param rows
+     */
+    createRows(tableId: any, columnIds: any, rows: any): void;
+
+}
+
+/**
+ * @param baseUrl {string}
+ * @param options {object}
+ * @returns {{api: SyncApi, Table: Table, Tables: Tables, TableBuilder: TableBuilder, ColumnBuilder: ColumnBuilder,
+ *   ConstraintBuilder: ConstraintBuilder}}
+ */
+declare function grudStructorizer(baseUrl: string, options: any): any;
+
 declare class Tables {
     constructor();
 

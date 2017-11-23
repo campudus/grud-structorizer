@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.6.0
+
+* add new parameter for options
+  * currently only cookies are implemented (e.g. `"{ cookies": { "cookie-name": { "value": "cookie-value" } }}`)
+* rewrite syncApi to class implementation with better type support
+
 ## 1.5.0
 
 * remove `minimist` dependency
