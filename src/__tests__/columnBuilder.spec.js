@@ -36,4 +36,15 @@ describe("ColumnBuilder", () => {
         }
       }));
   });
+
+  it("should contain a group of two columns with valid formatPattern", () => {
+    expect(new ColumnBuilder("a_group_column", "group").groups([1, 2]).formatPattern("{{1}} mm x {{2}} mm").column)
+      .toEqual(expect.objectContaining({
+        "groups": [1, 2],
+        "formatPattern": "{{1}} mm x {{2}} mm",
+        "kind": "group",
+        "name": "a_group_column",
+      }));
+  });
+
 });
