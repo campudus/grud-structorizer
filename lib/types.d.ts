@@ -250,6 +250,12 @@ declare class ColumnBuilder {
     groups(groups: number[]): ColumnBuilder;
 
     /**
+     * @param formatPattern {string}
+     * @returns {ColumnBuilder}
+     */
+    formatPattern(formatPattern: string): ColumnBuilder;
+
+    /**
      * @param toName {string}
      * @returns {ColumnBuilder}
      */

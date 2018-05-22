@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.7.0
+
+* add ability to configure `formatPattern` on group columns
+
 ## 1.6.0
 
 * add new parameter for options
