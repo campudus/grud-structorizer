@@ -522,6 +522,21 @@ function grudStructorizer(baseUrl, options) {
 
     /**
      *
+     * @param formatPattern {string}
+     * @returns {ColumnBuilder}
+     */
+    formatPattern(formatPattern) {
+      if (this.column.kind !== "group") {
+        throw new Error("column " + this.column.name + " should be of type 'group' to set 'groups(...)'");
+      }
+
+      this.column.formatPattern = formatPattern;
+
+      return this;
+    }
+
+    /**
+     *
      * @param toName {string}
      * @returns {ColumnBuilder}
      */
