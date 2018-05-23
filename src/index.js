@@ -237,15 +237,14 @@ function grudStructorizer(baseUrl, options) {
         throw new Error("table needs to be fetched first, columns should be defined");
       }
 
-      const columnIdToValueArray = _.map(columnNameToValueObject, (value, key) => {
+      const columnIdToValueArray = _.chain(columnNameToValueObject).keys().map((key) => {
         const column = _.find(this.columns, ["name", key]);
 
         if (!column) {
           throw new Error("column '" + key + "' is not defined in table '" + this.name + "'");
         }
-
-        return [column.id, value];
-      });
+        return [column.id, columnNameToValueObject[key]];
+      }).value();
 
       const columnsIds = _.map(columnIdToValueArray, _.first);
       const values = _.map(columnIdToValueArray, _.last);
