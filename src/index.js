@@ -227,29 +227,44 @@ function grudStructorizer(baseUrl, options) {
       return newColumn.id;
     }
 
+    getValuesFromCreateRowByObj(columnNameToValueObject) {
+      if (!this.columns) {
+        throw new Error("table needs to be fetched first, columns should be defined");
+      }
+
+      if (!_.isPlainObject(columnNameToValueObject)) {
+        throw new Error("columnNameToValueObject should be a simple plain object");
+      }
+
+      const columnNames = _.keys(columnNameToValueObject);
+      const columnIdToValueArray = columnNames.map((columnName) => {
+        const column = _.find(this.columns, ["name", columnName]);
+
+        if (!column) {
+          throw new Error("column '" + columnName + "' is not defined in table '" + this.name + "'");
+        }
+        return [column.id, columnNameToValueObject[columnName]];
+      });
+
+      const columnIds = _.map(columnIdToValueArray, _.first);
+      const values = _.map(columnIdToValueArray, _.last);
+
+      return {
+        columnIds,
+        values
+      };
+    }
+
     /**
      *
      * @param columnNameToValueObject {object}
      * @returns {number} row id
      */
     createRowByObj(columnNameToValueObject) {
-      if (!this.columns) {
-        throw new Error("table needs to be fetched first, columns should be defined");
-      }
 
-      const columnIdToValueArray = _.chain(columnNameToValueObject).keys().map((key) => {
-        const column = _.find(this.columns, ["name", key]);
+      const {columnIds, values} = this.getValuesFromCreateRowByObj(columnNameToValueObject);
 
-        if (!column) {
-          throw new Error("column '" + key + "' is not defined in table '" + this.name + "'");
-        }
-        return [column.id, columnNameToValueObject[key]];
-      }).value();
-
-      const columnsIds = _.map(columnIdToValueArray, _.first);
-      const values = _.map(columnIdToValueArray, _.last);
-
-      return this.createRows([values], columnsIds)[0];
+      return this.createRows([values], columnIds)[0];
     }
 
     /**
