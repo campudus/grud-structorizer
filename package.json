@@ -1,6 +1,6 @@
 {
   "name": "grud-structorizer",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Core library for building schemas",
   "main": "lib/index.js",
   "types": "./lib/types.d.ts",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/campudus/grud-aggregator.git"
+    "url": "git+https://github.com/campudus/grud-structorizer.git"
   },
   "keywords": [
     "tableaux",
@@ -30,7 +30,7 @@
   ],
   "author": "Campudus GmbH",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/campudus/grud-aggregator",
+  "homepage": "https://github.com/campudus/grud-structorizer",
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.1",
