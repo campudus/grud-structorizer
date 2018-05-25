@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.7.1
+
+* fix bug in `Table.createRowByObj` if columnName is a special word like 'length'
+* fix typos in `package.json`
+
+
 ## 1.7.0
 
 * add ability to configure `formatPattern` on group columns
