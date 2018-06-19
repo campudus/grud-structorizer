@@ -1,10 +1,15 @@
 # Release Notes
 
+## 1.8.0
+
+* added tests for `Table`
+* added method `getRows` for `Table` which returns an array of row objects zipped with column names
+* added method `getRow` for `Table` returns a single row object depending on the parameter `id`
+
 ## 1.7.1
 
 * fix bug in `Table.createRowByObj` if columnName is a special word like 'length'
 * fix typos in `package.json`
-
 
 ## 1.7.0
 

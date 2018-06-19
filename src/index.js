@@ -132,6 +132,44 @@ function grudStructorizer(baseUrl, options) {
     }
 
     /**
+     * Returns an array of row objects zipped with column names for this Table.
+     *
+     * @returns {Array.<object>} array row objects
+     */
+    getRows() {
+      if (!this.columns || !this.rows) {
+        throw new Error("Fetch table and rows first");
+      }
+      return _.map(
+        this.rows,
+        (row) => _.zipObject(_.map(this.columns, "name"), row.values)
+      );
+    }
+
+    /**
+     * Returns a single row object zipped with column names for this Table.
+     *
+     * @param id {number}
+     * @returns {Object} row object
+     */
+    getRow(id) {
+      if (!this.columns || !this.rows) {
+        throw new Error("Fetch table and rows first");
+      }
+      if (typeof id !== "number") {
+        throw new Error("Parameter 'id' should be a number");
+      }
+
+      const foundRow = _.find(this.rows, (row) => row.id === id);
+
+      if (!foundRow) {
+        throw new Error("No row found for id '" + id + "'");
+      }
+
+      return _.zipObject(_.map(this.columns, "name"), foundRow.values);
+    }
+
+    /**
      *
      * @param nameOrId {string|number}
      */

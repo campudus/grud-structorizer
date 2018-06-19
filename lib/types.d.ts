@@ -116,6 +116,19 @@ declare class Table {
     fetch(includeRows?: boolean): Table;
 
     /**
+     * Returns an array of row objects zipped with column names for this Table.
+     * @returns {Array.<object>} array row objects
+     */
+    getRows(): any[];
+
+    /**
+     * Returns a single row object zipped with column names for this Table.
+     * @param id {number}
+     * @returns {Object} row object
+     */
+    getRow(id: number): any;
+
+    /**
      * @param nameOrId {string|number}
      */
     findColumn(nameOrId: string | number): void;

@@ -44,25 +44,7 @@ describe("ColumnBuilder", () => {
         "groups": [1, 2],
         "formatPattern": "{{1}} mm x {{2}} mm",
         "kind": "group",
-        "name": "a_group_column",
+        "name": "a_group_column"
       }));
   });
-
-  it("should not run on exception 'column '0' is not defined in table'", () => {
-
-    const t = new Table(1, "testTable");
-
-    const col1 = new ColumnBuilder("length", "numeric");
-    const col2 = new ColumnBuilder("x", "shorttext");
-    col1.column.id = 0;
-    col2.column.id = 1;
-
-    t.columns = [col1.column, col2.column];
-
-    const {columnIds, values} = t.getValuesFromCreateRowByObj({ length: 42, x: "someText" });
-
-    expect(columnIds).toEqual([0, 1]);
-    expect(values).toEqual([42, 'someText']);
-  });
-
 });
