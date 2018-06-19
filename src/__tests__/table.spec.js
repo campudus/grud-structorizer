@@ -58,4 +58,10 @@ describe("Table", () => {
   it("should throw 'id' should be a number", () => {
     expect(() => defaultTable.getRow("not_a_number")).toThrow("Parameter 'id' should be a number");
   });
+
+  it("should throw an error if rows aren't fetched", () => {
+    const table = new Table(1, "testTable");
+    expect(() => table.getRows()).toThrow("Fetch table and rows first");
+    expect(() => table.getRow(42)).toThrow("Fetch table and rows first");
+  });
 });
