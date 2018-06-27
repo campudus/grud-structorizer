@@ -1,6 +1,7 @@
 const structorizer = require("../index")("http://localhost:8181");
 const ColumnBuilder = structorizer.ColumnBuilder;
 const Table = structorizer.Table;
+// import checkKindForLanguageConversion from "../index";
 
 let defaultTable;
 
@@ -37,7 +38,7 @@ describe("Table", () => {
     const {columnIds, values} = table.getValuesFromCreateRowByObj({ length: 42, x: "someText" });
 
     expect(columnIds).toEqual([0, 1]);
-    expect(values).toEqual([42, 'someText']);
+    expect(values).toEqual([42, "someText"]);
   });
 
   it("should contain a array of three row ojects", () => {
@@ -64,4 +65,26 @@ describe("Table", () => {
     expect(() => table.getRows()).toThrow("Fetch table and rows first");
     expect(() => table.getRow(42)).toThrow("Fetch table and rows first");
   });
+
+  it("should throw errors if it's not of kind 'text' or 'shorttext''", () => {
+    expect(() => Table.checkKindForLanguageConversion("number")).toThrow("Column must be of kind 'shorttext' or 'text'");
+    expect(() => Table.checkKindForLanguageConversion(undefined)).toThrow("Column must be of kind 'shorttext' or 'text'");
+  });
+
+  it("should NOT throw errors", () => {
+    expect(Table.checkKindForLanguageConversion("shorttext"));
+    expect(Table.checkKindForLanguageConversion("text"));
+  });
+
+  it("should throw errors if system langtags don't contain language", () => {
+    expect(() => Table.checkLanguageForLanguageConversion([], "de")).toThrow("Language 'de' not in '/system/settings/langtags'");
+    expect(() => Table.checkLanguageForLanguageConversion(undefined, "de")).toThrow("Language 'de' not in '/system/settings/langtags'");
+    expect(() => Table.checkLanguageForLanguageConversion(["de", "en"], "it")).toThrow("Language 'it' not in '/system/settings/langtags'");
+  });
+
+  it("should NOT throw errors if system langtags don't contain language", () => {
+    expect(Table.checkLanguageForLanguageConversion(["de", "en"], "de"));
+    expect(Table.checkLanguageForLanguageConversion(["de", "en", "it"], "it"));
+  });
+
 });
