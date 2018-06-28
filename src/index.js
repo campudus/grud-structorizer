@@ -53,6 +53,26 @@ function grudStructorizer(baseUrl, options) {
 
   const tableaux = new SyncApi(baseUrl, options);
 
+  const StaticHelpers = {
+    getLanguages: () => {
+      return tableaux.doCall("GET", "/system/settings/langtags").value;
+    },
+
+    checkKindForLanguageConversion: (kind) => {
+      const ALLOWED_TYPES = ["shorttext", "text"];
+
+      if (!_.includes(ALLOWED_TYPES, kind)) {
+        throw new Error(`Column must be of kind '${_.join(ALLOWED_TYPES, "' or '")}'`);
+      }
+    },
+
+    checkLanguageForLanguageConversion: (languages, targetLanguage) => {
+      if (!_.includes(languages, targetLanguage)) {
+        throw new Error(`Language '${targetLanguage}' not in '/system/settings/langtags'`);
+      }
+    }
+  };
+
   /**
    *
    */
@@ -341,41 +361,35 @@ function grudStructorizer(baseUrl, options) {
       return tableaux.createRows(this.tableId, columnIds, rows);
     }
 
-    static checkKindForLanguageConversion(kind) {
-      const ALLOWED_TYPES = ["shorttext", "text"];
+    changeColumn(columnId, changeObj) {
+      return tableaux.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, changeObj);
+    }
 
-      if (!_.includes(ALLOWED_TYPES, kind)) {
-        throw new Error(`Column must be of kind '${_.join(ALLOWED_TYPES, "' or '")}'`);
+    getColumn(columnName) {
+      const column = this.findColumn(columnName);
+      if (!column) {
+        throw new Error(`Column name '${columnName}' does not exist`);
       }
+      return column;
     };
-
-    static checkLanguageForLanguageConversion(languages, targetLanguage) {
-      if (!_.includes(languages, targetLanguage)) {
-        throw new Error(`Language '${targetLanguage}' not in '/system/settings/langtags'`);
-      }
-    };
-
-    static getLanguages() {
-      return tableaux.doCall("GET", "/system/settings/langtags").value;
-    };
-
     /**
      * Convenient method to change a single language column to multi language
      *
      * @param columnName {string}
-     * @param pickLanguage {string} language to choose for the raw value
+     * @param pickLanguage language in which raw values should be inserted (default: "first language of '/system/settings/langtags'") {string}
      */
     convertColumnToMultilanguage(columnName, pickLanguage) {
       this.fetch();
 
-      const columnId = this.findColumn(columnName).id;
+      const column = this.getColumn(columnName);
+
       const {ordering, kind, identifier, displayName, description, multilanguage} = _.find(this.columns, {name: columnName});
 
-      const languages = Table.getLanguages();
+      const languages = StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
 
-      Table.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
-      Table.checkKindForLanguageConversion(kind);
+      StaticHelpers.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
+      StaticHelpers.checkKindForLanguageConversion(kind);
 
       if (multilanguage) {
         throw new Error("Column is already multi language");
@@ -383,10 +397,7 @@ function grudStructorizer(baseUrl, options) {
 
       const columnIndex = _.findIndex(this.columns, {name: columnName});
 
-      tableaux.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, {
-        name: columnName + "_convert_language"
-      });
-
+      this.changeColumn(column.id, {name: columnName + "_convert_language"});
       this.fetch(true);
 
       const newColumnId = this.createColumn(
@@ -421,26 +432,25 @@ function grudStructorizer(baseUrl, options) {
         });
       });
 
-      tableaux.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + columnId);
+      tableaux.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
     };
 
     /**
      * Convenient method to change a multi language column to single language
-     *
      * @param columnName {string}
-     * @param pickLanguage {string} language which which will be inserted as raw value
+     * @param pickLanguage language from which values are taken as new values (default: first language of '/system/settings/langtags') {string}
      */
     convertColumnToSinglelanguage(columnName, pickLanguage) {
       this.fetch();
 
-      const columnId = this.findColumn(columnName).id;
+      const column = this.getColumn(columnName);
       const {ordering, kind, identifier, displayName, description, multilanguage} = _.find(this.columns, {name: columnName});
 
-      const languages = Table.getLanguages();
+      const languages = StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
 
-      Table.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
-      Table.checkKindForLanguageConversion(kind);
+      StaticHelpers.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
+      StaticHelpers.checkKindForLanguageConversion(kind);
 
       if (!multilanguage) {
         throw new Error("Column is already single language");
@@ -448,10 +458,7 @@ function grudStructorizer(baseUrl, options) {
 
       const columnIndex = _.findIndex(this.columns, {name: columnName});
 
-      tableaux.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, {
-        name: columnName + "_convert_language"
-      });
-
+      this.changeColumn(column.id, {name: columnName + "_convert_language"});
       this.fetch(true);
 
       const newColumnId = this.createColumn(
@@ -470,13 +477,17 @@ function grudStructorizer(baseUrl, options) {
 
         tableaux.doCall("PATCH", url, {value: newValue});
 
-        // there schould be not more than one translation flag per cell
-        const langAnnotations = _.head(_.filter(annotations[1], { "value": "needs_translation" }));
+        if (_.includes(annotations, columnIndex)) {
+          // there schould be not more than one translation flag per cell
+          const langAnnotation = _.head(_.filter(annotations[columnIndex], { "value": "needs_translation" }));
 
-        tableaux.doCall("DELETE", `${url}/annotations/${langAnnotations.uuid}`);
+          if (langAnnotation) {
+            tableaux.doCall("DELETE", `${url}/annotations/${langAnnotation.uuid}`);
+          }
+        }
       });
 
-      tableaux.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + columnId);
+      tableaux.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
     }
   }
 
@@ -894,7 +905,8 @@ function grudStructorizer(baseUrl, options) {
     Tables: Tables,
     TableBuilder: TableBuilder,
     ColumnBuilder: ColumnBuilder,
-    ConstraintBuilder: ConstraintBuilder
+    ConstraintBuilder: ConstraintBuilder,
+    StaticHelpers: StaticHelpers
   };
 }
 
