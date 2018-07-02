@@ -53,6 +53,26 @@ function grudStructorizer(baseUrl, options) {
 
   const tableaux = new SyncApi(baseUrl, options);
 
+  const StaticHelpers = {
+    getLanguages: () => {
+      return tableaux.doCall("GET", "/system/settings/langtags").value;
+    },
+
+    checkKindForLanguageConversion: (kind) => {
+      const ALLOWED_TYPES = ["shorttext", "text"];
+
+      if (!_.includes(ALLOWED_TYPES, kind)) {
+        throw new Error(`Column must be of kind '${_.join(ALLOWED_TYPES, "' or '")}'`);
+      }
+    },
+
+    checkLanguageForLanguageConversion: (languages, targetLanguage) => {
+      if (!_.includes(languages, targetLanguage)) {
+        throw new Error(`Language '${targetLanguage}' not in '/system/settings/langtags'`);
+      }
+    }
+  };
+
   /**
    *
    */
@@ -339,6 +359,135 @@ function grudStructorizer(baseUrl, options) {
       const columnIds = columns || _.range(1, firstRowValues.length + 1);
 
       return tableaux.createRows(this.tableId, columnIds, rows);
+    }
+
+    changeColumn(columnId, changeObj) {
+      return tableaux.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, changeObj);
+    }
+
+    getColumn(columnName) {
+      const column = this.findColumn(columnName);
+      if (!column) {
+        throw new Error(`Column name '${columnName}' does not exist`);
+      }
+      return column;
+    };
+    /**
+     * Convenient method to change a single language column to multi language
+     *
+     * @param columnName {string}
+     * @param pickLanguage language in which raw values should be inserted (default: "first language of '/system/settings/langtags'") {string}
+     */
+    convertColumnToMultilanguage(columnName, pickLanguage) {
+      this.fetch();
+
+      const column = this.getColumn(columnName);
+
+      const {ordering, kind, identifier, displayName, description, multilanguage} = _.find(this.columns, {name: columnName});
+
+      const languages = StaticHelpers.getLanguages();
+      const defaultLanguage = _.head(languages);
+
+      StaticHelpers.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
+      StaticHelpers.checkKindForLanguageConversion(kind);
+
+      if (multilanguage) {
+        throw new Error("Column is already multi language");
+      }
+
+      const columnIndex = _.findIndex(this.columns, {name: columnName});
+
+      this.changeColumn(column.id, {name: columnName + "_convert_language"});
+      this.fetch(true);
+
+      const newColumnId = this.createColumn(
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).multilanguage(true),
+      );
+
+      _.forEach(this.rows, row => {
+        const { id: rowId, values } = row;
+        const value = values[columnIndex];
+        const url = "/tables/" + this.tableId + "/columns/" + newColumnId + "/rows/" + rowId;
+
+        if (!value) {
+          return;
+        }
+
+        const mapValueIntoLanguage = (value, lang) => {
+          return {
+            value: {
+              [lang]: value
+            }
+          };
+        };
+
+        const newValue = mapValueIntoLanguage(value, pickLanguage || defaultLanguage);
+
+        tableaux.doCall("PATCH", url, newValue);
+
+        tableaux.doCall("POST", `${url}/annotations`, {
+          langtags: languages,
+          type: "flag",
+          value: "needs_translation"
+        });
+      });
+
+      tableaux.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
+    };
+
+    /**
+     * Convenient method to change a multi language column to single language
+     * @param columnName {string}
+     * @param pickLanguage language from which values are taken as new values (default: first language of '/system/settings/langtags') {string}
+     */
+    convertColumnToSinglelanguage(columnName, pickLanguage) {
+      this.fetch();
+
+      const column = this.getColumn(columnName);
+      const {ordering, kind, identifier, displayName, description, multilanguage} = _.find(this.columns, {name: columnName});
+
+      const languages = StaticHelpers.getLanguages();
+      const defaultLanguage = _.head(languages);
+
+      StaticHelpers.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
+      StaticHelpers.checkKindForLanguageConversion(kind);
+
+      if (!multilanguage) {
+        throw new Error("Column is already single language");
+      }
+
+      const columnIndex = _.findIndex(this.columns, {name: columnName});
+
+      this.changeColumn(column.id, {name: columnName + "_convert_language"});
+      this.fetch(true);
+
+      const newColumnId = this.createColumn(
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).multilanguage(false),
+      );
+
+      _.forEach(this.rows, row => {
+        const { id: rowId, values, annotations } = row;
+
+        const newValue = _.get(values[columnIndex], pickLanguage || defaultLanguage);
+        const url = "/tables/" + this.tableId + "/columns/" + newColumnId + "/rows/" + rowId;
+
+        if (!newValue) {
+          return;
+        }
+
+        tableaux.doCall("PATCH", url, {value: newValue});
+
+        if (_.includes(annotations, columnIndex)) {
+          // there schould be not more than one translation flag per cell
+          const langAnnotation = _.head(_.filter(annotations[columnIndex], { "value": "needs_translation" }));
+
+          if (langAnnotation) {
+            tableaux.doCall("DELETE", `${url}/annotations/${langAnnotation.uuid}`);
+          }
+        }
+      });
+
+      tableaux.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
     }
   }
 
@@ -756,7 +905,8 @@ function grudStructorizer(baseUrl, options) {
     Tables: Tables,
     TableBuilder: TableBuilder,
     ColumnBuilder: ColumnBuilder,
-    ConstraintBuilder: ConstraintBuilder
+    ConstraintBuilder: ConstraintBuilder,
+    StaticHelpers: StaticHelpers
   };
 }
 
