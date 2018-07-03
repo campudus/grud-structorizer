@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.0
+
+* added method `convertColumnToMultilanguage` and `convertColumnToSinglelanguage` to `Table`
+
 ## 1.8.0
 
 * added tests for `Table`
