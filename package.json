@@ -1,6 +1,6 @@
 {
   "name": "grud-structorizer",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Core library for building schemas",
   "main": "lib/index.js",
   "types": "./lib/types.d.ts",

@@ -168,6 +168,20 @@ declare class Table {
      */
     createRows(rows: (any[])[], columns: number[]): number[];
 
+    /**
+     * Convenient method to change a single language column to multi language
+     * @param columnName {string}
+     * @param pickLanguage language in which raw values should be inserted (default: "first language of '/system/settings/langtags'") {string}
+     */
+    convertColumnToMultilanguage(columnName: string, pickLanguage: string): void;
+
+    /**
+     * Convenient method to change a multi language column to single language
+     * @param columnName {string}
+     * @param pickLanguage language from which values are taken as new values (default: first language of '/system/settings/langtags') {string}
+     */
+    convertColumnToSinglelanguage(columnName: string, pickLanguage: string): void;
+
 }
 
 declare class TableBuilder {
