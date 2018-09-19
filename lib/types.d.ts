@@ -117,12 +117,16 @@ declare class Table {
 
     /**
      * Returns an array of row objects zipped with column names for this Table.
+     * The `rowId` property represents the row ID (PK) of the database,
+     * so this value can be reused for updates/deletions/etc.
      * @returns {Array.<object>} array row objects
      */
     getRows(): any[];
 
     /**
      * Returns a single row object zipped with column names for this Table.
+     * The `rowId` property represents the row ID (PK) of the database,
+     * so this value can be reused for updates/deletions/etc.
      * @param id {number}
      * @returns {Object} row object
      */
