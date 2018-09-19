@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.1
+
+* added property `rowId` to methods `getRow` and `getRows` so it can be used for further manipulation like updates/deletions/etc.
+
 ## 1.9.0
 
 * added method `convertColumnToMultilanguage` and `convertColumnToSinglelanguage` to `Table`

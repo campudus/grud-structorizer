@@ -41,15 +41,15 @@ describe("Table", () => {
     expect(values).toEqual([42, "someText"]);
   });
 
-  it("should contain a array of three row ojects", () => {
+  it("should contain an array of three row ojects", () => {
     expect(defaultTable.getRows().length).toEqual(3);
-    expect(defaultTable.getRows()[0]).toEqual({ "a_number": 11, "name": "black", "hexcode": "000000" });
-    expect(defaultTable.getRows()[1]).toEqual({ "a_number": 22, "name": "white", "hexcode": "FFFFFF" });
-    expect(defaultTable.getRows()[2]).toEqual({ "a_number": 44, "name": "red", "hexcode": "ba2a29" });
+    expect(defaultTable.getRows()[0]).toEqual({ "a_number": 11, "name": "black", "hexcode": "000000", "rowId": 1 });
+    expect(defaultTable.getRows()[1]).toEqual({ "a_number": 22, "name": "white", "hexcode": "FFFFFF", "rowId": 2 });
+    expect(defaultTable.getRows()[2]).toEqual({ "a_number": 44, "name": "red", "hexcode": "ba2a29", "rowId": 4 });
   });
 
   it("should contain a single row ojects", () => {
-    expect(defaultTable.getRow(2)).toEqual({ "a_number": 22, "name": "white", "hexcode": "FFFFFF" });
+    expect(defaultTable.getRow(2)).toEqual({ "a_number": 22, "name": "white", "hexcode": "FFFFFF", "rowId": 2 });
   });
 
   it("should throw row for id does not exist", () => {

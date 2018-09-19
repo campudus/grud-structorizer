@@ -154,6 +154,9 @@ function grudStructorizer(baseUrl, options) {
     /**
      * Returns an array of row objects zipped with column names for this Table.
      *
+     * The `rowId` property represents the row ID (PK) of the database,
+     * so this value can be reused for updates/deletions/etc.
+     *
      * @returns {Array.<object>} array row objects
      */
     getRows() {
@@ -162,12 +165,19 @@ function grudStructorizer(baseUrl, options) {
       }
       return _.map(
         this.rows,
-        (row) => _.zipObject(_.map(this.columns, "name"), row.values)
+        (row) => {
+          const obj = _.zipObject(_.map(this.columns, "name"), row.values);
+          obj.rowId = row.id;
+          return obj;
+        }
       );
     }
 
     /**
      * Returns a single row object zipped with column names for this Table.
+     *
+     * The `rowId` property represents the row ID (PK) of the database,
+     * so this value can be reused for updates/deletions/etc.
      *
      * @param id {number}
      * @returns {Object} row object
@@ -186,7 +196,10 @@ function grudStructorizer(baseUrl, options) {
         throw new Error("No row found for id '" + id + "'");
       }
 
-      return _.zipObject(_.map(this.columns, "name"), foundRow.values);
+      const obj = _.zipObject(_.map(this.columns, "name"), foundRow.values);
+      obj.rowId = foundRow.id;
+
+      return obj;
     }
 
     /**
