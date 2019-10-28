@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.2
+
+* added `headers` parameter to options in backward compatible manner (cookies and headers object will be merged). This adds the ability to pass for example authorization bearer to SyncApi (e.g.`{ "headers": { "Authorization": "Bearer eyJhbGciOiJSU...C6XZsFhVsxFw"}`)
+
 ## 1.9.1
 
 * added property `rowId` to methods `getRow` and `getRows` so it can be used for further manipulation like updates/deletions/etc.
@@ -26,7 +30,7 @@
 ## 1.6.0
 
 * add new parameter for options
-  * currently only cookies are implemented (e.g. `"{ cookies": { "cookie-name": { "value": "cookie-value" } }}`)
+  * currently only cookies are implemented (e.g. `{ "cookies": { "cookie-name": { "value": "cookie-value" } }}`)
 * rewrite syncApi to class implementation with better type support
 
 ## 1.5.0

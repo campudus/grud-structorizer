@@ -21,6 +21,7 @@ class SyncApi {
   constructor(baseUrl, options) {
     this.baseUrl = baseUrl;
     this.cookies = _.get(options, ["cookies"], {});
+    this.headers = _.get(options, ["headers"], {});
   }
 
   /**
@@ -35,7 +36,8 @@ class SyncApi {
       headers: {
         "Cookie": _.map(this.cookies, (cookieObj, cookieName) => {
           return cookieName + "=" + cookieObj.value || "undefined";
-        }).join("; ")
+        }).join("; "),
+        ...this.headers
       },
       json: json,
       qs: {
