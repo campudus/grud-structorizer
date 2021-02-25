@@ -263,6 +263,12 @@ declare class ColumnBuilder {
     identifier(identifier?: boolean): ColumnBuilder;
 
     /**
+     * @param [separator=true] {boolean}
+     * @returns {ColumnBuilder}
+     */
+    separator(separator?: boolean): ColumnBuilder;
+
+    /**
      * @param toTable {Table|number}
      * @returns {ColumnBuilder}
      */

@@ -683,6 +683,16 @@ function grudStructorizer(baseUrl, options) {
 
     /**
      *
+     * @param [separator=true] {boolean}
+     * @returns {ColumnBuilder}
+     */
+    separator(separator) {
+      this.column.separator = (typeof separator === "boolean" ? separator : true);
+      return this;
+    }
+
+    /**
+     *
      * @param toTable {Table|number}
      * @returns {ColumnBuilder}
      */

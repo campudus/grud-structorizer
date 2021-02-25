@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>SyncApi.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,73 +27,199 @@
 
 <div id="main">
     
+    <h1 class="page-title">SyncApi.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
 
+const request = require("sync-request");
+const _ = require("lodash");
 
+/**
+ * @typedef {object} SyncApiOptions
+ * @property cookies {object}
+ */
 
+/**
+ *
+ */
+class SyncApi {
 
+  /**
+   *
+   * @param baseUrl {string}
+   * @param options {SyncApiOptions}
+   */
+  constructor(baseUrl, options) {
+    this.baseUrl = baseUrl;
+    this.cookies = _.get(options, ["cookies"], {});
+    this.headers = _.get(options, ["headers"], {});
+  }
 
+  /**
+   *
+   * @param method {string}
+   * @param url {string}
+   * @param [json] {object}
+   * @param [nonce] {string}
+   */
+  doCall(method, url, json, nonce) {
+    const options = {
+      headers: {
+        "Cookie": _.map(this.cookies, (cookieObj, cookieName) => {
+          return cookieName + "=" + cookieObj.value || "undefined";
+        }).join("; "),
+        ...this.headers
+      },
+      json: json,
+      qs: {
+        nonce: nonce
+      }
+    };
 
+    const response = request(method, this.baseUrl + url, options).getBody("utf-8");
+    return JSON.parse(response);
+  }
 
+  /**
+   *
+   * @param nonce {string}
+   */
+  resetSchema(nonce) {
+    return this.doCall("POST", "/system/reset", undefined, nonce);
+  }
 
+  /**
+   *
+   * @param tableId {number}
+   * @param [includeRows=false] {boolean}
+   */
+  fetchTable(tableId, includeRows = false) {
+    if (typeof tableId !== "number") {
+      throw new Error("parameter 'tableId' should be a number");
+    }
 
-    
+    const table = this.doCall("GET", "/tables/" + tableId);
 
+    delete table["id"];
+    delete table["status"];
 
-    <section class="readme">
-        <article><h1>grud-structorizer</h1><p>Small synchronous JS SDK for building GRUD schemas</p>
-<h2>Documentation</h2><p>See <a href="https://campudus.github.io/grud-structorizer">docs</a> for API documentation</p>
-<h2>Options</h2><p>The constructor takes two arguments, url and options.</p>
-<p>Currently we supports the following options:</p>
-<ul>
-<li><p><strong>cookies</strong> allows to pass a cookie header as object for requests</p>
-<pre class="prettyprint source lang-javascript"><code>// expressjs session cookie via cookies
-const option = { &quot;cookies&quot;: { &quot;connect.sid&quot;: { &quot;value&quot;:&quot;s%3Al...PWgk;&quot; } } }</code></pre></li>
-<li><p><strong>headers</strong> allows to pass headers for requests</p>
-<pre class="prettyprint source lang-javascript"><code>// expressjs session cookie via headers
-const option = { &quot;headers&quot;: { &quot;Cookie&quot;: &quot;connect.sid=s%3Al...PWgk;&quot; } }
-// OAuth 2.0 bearer token
-const option = { &quot;headers&quot;: { &quot;Authorization&quot;: &quot;Bearer eyJhbG...ciOiJSUz&quot; } }</code></pre></li>
-</ul>
-<h2>Example</h2><pre class="prettyprint source lang-javascript"><code>const grudStructorizer = require('grud-structorizer');
+    const columns = this.doCall("GET", "/tables/" + tableId + "/columns");
 
-const options = { };
-const structorizer = grudStructorizer(&quot;http://localhost:8181&quot;, options);
+    delete columns["status"];
 
-const TableBuilder = structorizer.TableBuilder;
-const ColumnBuilder = structorizer.ColumnBuilder;
-const ConstraintBuilder = structorizer.ConstraintBuilder;
+    Object.assign(table, columns);
 
-const newTable = new TableBuilder(&quot;newTable&quot;, &quot;generic&quot;)
-  .displayName(&quot;de&quot;, &quot;Neue Tabelle&quot;, &quot;en&quot;, &quot;New table&quot;)
-  .create();
+    if (includeRows) {
+      const rows = this.doCall("GET", "/tables/" + tableId + "/rows");
 
-newTable.createColumns([
-  new ColumnBuilder(&quot;rowIdentifier&quot;, &quot;shorttext&quot;)
-    .displayName(&quot;de&quot;, &quot;Name&quot;)
-    .identifier()
-]);
+      delete rows["page"];
+      delete rows["status"];
 
-newTable.createRowByObj({rowIdentifier: &quot;Test&quot;});</code></pre><h2>Changelog</h2><p>See <a href="https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
-<h2>License</h2><blockquote>
-<p>Copyright 2016-present Campudus GmbH.</p>
-<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at</p>
-<pre class="prettyprint source"><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre><p>Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.</p>
-</blockquote></article>
+      Object.assign(table, rows);
+    }
+
+    return table;
+  }
+
+  /**
+   *
+   * @param name {string}
+   * @param hidden {boolean}
+   * @param displayName {object} multi-language object
+   * @param type {string}
+   * @param group {number}
+   * @returns {object}
+   */
+  createTable(name, hidden, displayName, type, group) {
+    const json = {
+      "name": name,
+      "hidden": (typeof hidden === "boolean" ? hidden : false)
+    };
+
+    if (displayName &amp;&amp; typeof displayName === "object") {
+      json["displayName"] = displayName;
+    }
+
+    if (type &amp;&amp; typeof type === "string") {
+      json["type"] = type;
+    }
+
+    if (group &amp;&amp; typeof group === "number") {
+      json["group"] = group;
+    }
+
+    return this.doCall("POST", "/tables", json);
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnObjArray
+   */
+  createColumns(tableId, columnObjArray) {
+    const json = {
+      "columns": columnObjArray
+    };
+
+    return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns;
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnObject
+   */
+  createColumn(tableId, columnObject) {
+    const json = {
+      "columns": [
+        columnObject
+      ]
+    };
+
+    return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns[0];
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnIds
+   * @param values
+   * @returns {*}
+   */
+  createRow(tableId, columnIds, values) {
+    return this.createRows(tableId, columnIds, [values])[0];
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnIds
+   * @param rows
+   */
+  createRows(tableId, columnIds, rows) {
+    const json = {
+      "columns": columnIds.map(columnId => ({"id": columnId})),
+      "rows": rows.map(rowValues => ({"values": rowValues}))
+    };
+
+    const result = this.doCall("POST", "/tables/" + tableId + "/rows", json);
+
+    return result.rows.map(row => row.id);
+  }
+}
+
+module.exports = SyncApi;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
