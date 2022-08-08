@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.4
+
+* replaced old lib/syncApi.js by the new case-sensitive version lib/SyncApi.js
+
 ## 1.9.2
 
 * added `headers` parameter to options in backward compatible manner (cookies and headers object will be merged). This adds the ability to pass for example authorization bearer to SyncApi (e.g.`{ "headers": { "Authorization": "Bearer eyJhbGciOiJSU...C6XZsFhVsxFw"}`)
