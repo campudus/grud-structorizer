@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SyncApi.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ColumnBuilder.html">ColumnBuilder</a><ul class='methods'><li data-type='method'><a href="ColumnBuilder.html#addConstraint">addConstraint</a></li><li data-type='method'><a href="ColumnBuilder.html#description">description</a></li><li data-type='method'><a href="ColumnBuilder.html#displayName">displayName</a></li><li data-type='method'><a href="ColumnBuilder.html#formatPattern">formatPattern</a></li><li data-type='method'><a href="ColumnBuilder.html#groups">groups</a></li><li data-type='method'><a href="ColumnBuilder.html#identifier">identifier</a></li><li data-type='method'><a href="ColumnBuilder.html#languageType">languageType</a></li><li data-type='method'><a href="ColumnBuilder.html#link">link</a></li><li data-type='method'><a href="ColumnBuilder.html#multilanguage">multilanguage</a></li><li data-type='method'><a href="ColumnBuilder.html#ordering">ordering</a></li><li data-type='method'><a href="ColumnBuilder.html#separator">separator</a></li><li data-type='method'><a href="ColumnBuilder.html#simpleLink">simpleLink</a></li><li data-type='method'><a href="ColumnBuilder.html#singleDirection">singleDirection</a></li><li data-type='method'><a href="ColumnBuilder.html#toDescription">toDescription</a></li><li data-type='method'><a href="ColumnBuilder.html#toDisplayName">toDisplayName</a></li><li data-type='method'><a href="ColumnBuilder.html#toName">toName</a></li><li data-type='method'><a href="ColumnBuilder.html#toOrdering">toOrdering</a></li></ul></li><li><a href="ConstraintBuilder.html">ConstraintBuilder</a><ul class='methods'><li data-type='method'><a href="ConstraintBuilder.html#.cardinality">cardinality</a></li><li data-type='method'><a href="ConstraintBuilder.html#.cardinalityManyToOne">cardinalityManyToOne</a></li><li data-type='method'><a href="ConstraintBuilder.html#.cardinalityOneToMany">cardinalityOneToMany</a></li><li data-type='method'><a href="ConstraintBuilder.html#.cardinalityOneToOne">cardinalityOneToOne</a></li><li data-type='method'><a href="ConstraintBuilder.html#.deleteCascade">deleteCascade</a></li></ul></li><li><a href="SyncApi.html">SyncApi</a><ul class='methods'><li data-type='method'><a href="SyncApi.html#createColumn">createColumn</a></li><li data-type='method'><a href="SyncApi.html#createColumns">createColumns</a></li><li data-type='method'><a href="SyncApi.html#createRow">createRow</a></li><li data-type='method'><a href="SyncApi.html#createRows">createRows</a></li><li data-type='method'><a href="SyncApi.html#createTable">createTable</a></li><li data-type='method'><a href="SyncApi.html#doCall">doCall</a></li><li data-type='method'><a href="SyncApi.html#fetchTable">fetchTable</a></li><li data-type='method'><a href="SyncApi.html#resetSchema">resetSchema</a></li></ul></li><li><a href="Table.html">Table</a><ul class='methods'><li data-type='method'><a href="Table.html#convertColumnToMultilanguage">convertColumnToMultilanguage</a></li><li data-type='method'><a href="Table.html#convertColumnToSinglelanguage">convertColumnToSinglelanguage</a></li><li data-type='method'><a href="Table.html#createColumn">createColumn</a></li><li data-type='method'><a href="Table.html#createColumns">createColumns</a></li><li data-type='method'><a href="Table.html#createRow">createRow</a></li><li data-type='method'><a href="Table.html#createRowByObj">createRowByObj</a></li><li data-type='method'><a href="Table.html#createRows">createRows</a></li><li data-type='method'><a href="Table.html#deleteColumn">deleteColumn</a></li><li data-type='method'><a href="Table.html#fetch">fetch</a></li><li data-type='method'><a href="Table.html#findColumn">findColumn</a></li><li data-type='method'><a href="Table.html#getRow">getRow</a></li><li data-type='method'><a href="Table.html#getRows">getRows</a></li></ul></li><li><a href="TableBuilder.html">TableBuilder</a><ul class='methods'><li data-type='method'><a href="TableBuilder.html#create">create</a></li><li data-type='method'><a href="TableBuilder.html#displayName">displayName</a></li><li data-type='method'><a href="TableBuilder.html#group">group</a></li><li data-type='method'><a href="TableBuilder.html#hidden">hidden</a></li></ul></li><li><a href="Tables.html">Tables</a><ul class='methods'><li data-type='method'><a href="Tables.html#fetch">fetch</a></li><li data-type='method'><a href="Tables.html#find">find</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#grudStructorizer">grudStructorizer</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SyncApi.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+const request = require("sync-request");
+const _ = require("lodash");
+
+/**
+ * @typedef {object} SyncApiOptions
+ * @property cookies {object}
+ */
+
+/**
+ *
+ */
+class SyncApi {
+
+  /**
+   *
+   * @param baseUrl {string}
+   * @param options {SyncApiOptions}
+   */
+  constructor(baseUrl, options) {
+    this.baseUrl = baseUrl;
+    this.cookies = _.get(options, ["cookies"], {});
+    this.headers = _.get(options, ["headers"], {});
+  }
+
+  /**
+   *
+   * @param method {string}
+   * @param url {string}
+   * @param [json] {object}
+   * @param [nonce] {string}
+   */
+  doCall(method, url, json, nonce) {
+    const options = {
+      headers: {
+        "Cookie": _.map(this.cookies, (cookieObj, cookieName) => {
+          return cookieName + "=" + cookieObj.value || "undefined";
+        }).join("; "),
+        ...this.headers
+      },
+      json: json,
+      qs: {
+        nonce: nonce
+      }
+    };
+
+    const response = request(method, this.baseUrl + url, options).getBody("utf-8");
+    return JSON.parse(response);
+  }
+
+  /**
+   *
+   * @param nonce {string}
+   */
+  resetSchema(nonce) {
+    return this.doCall("POST", "/system/reset", undefined, nonce);
+  }
+
+  /**
+   *
+   * @param tableId {number}
+   * @param [includeRows=false] {boolean}
+   */
+  fetchTable(tableId, includeRows = false) {
+    if (typeof tableId !== "number") {
+      throw new Error("parameter 'tableId' should be a number");
+    }
+
+    const table = this.doCall("GET", "/tables/" + tableId);
+
+    delete table["id"];
+    delete table["status"];
+
+    const columns = this.doCall("GET", "/tables/" + tableId + "/columns");
+
+    delete columns["status"];
+
+    Object.assign(table, columns);
+
+    if (includeRows) {
+      const rows = this.doCall("GET", "/tables/" + tableId + "/rows");
+
+      delete rows["page"];
+      delete rows["status"];
+
+      Object.assign(table, rows);
+    }
+
+    return table;
+  }
+
+  /**
+   *
+   * @param name {string}
+   * @param hidden {boolean}
+   * @param displayName {object} multi-language object
+   * @param type {string}
+   * @param group {number}
+   * @returns {object}
+   */
+  createTable(name, hidden, displayName, type, group) {
+    const json = {
+      "name": name,
+      "hidden": (typeof hidden === "boolean" ? hidden : false)
+    };
+
+    if (displayName &amp;&amp; typeof displayName === "object") {
+      json["displayName"] = displayName;
+    }
+
+    if (type &amp;&amp; typeof type === "string") {
+      json["type"] = type;
+    }
+
+    if (group &amp;&amp; typeof group === "number") {
+      json["group"] = group;
+    }
+
+    return this.doCall("POST", "/tables", json);
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnObjArray
+   */
+  createColumns(tableId, columnObjArray) {
+    const json = {
+      "columns": columnObjArray
+    };
+
+    return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns;
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnObject
+   */
+  createColumn(tableId, columnObject) {
+    const json = {
+      "columns": [
+        columnObject
+      ]
+    };
+
+    return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns[0];
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnIds
+   * @param values
+   * @returns {*}
+   */
+  createRow(tableId, columnIds, values) {
+    return this.createRows(tableId, columnIds, [values])[0];
+  }
+
+  /**
+   *
+   * @param tableId
+   * @param columnIds
+   * @param rows
+   */
+  createRows(tableId, columnIds, rows) {
+    const json = {
+      "columns": columnIds.map(columnId => ({"id": columnId})),
+      "rows": rows.map(rowValues => ({"values": rowValues}))
+    };
+
+    const result = this.doCall("POST", "/tables/" + tableId + "/rows", json);
+
+    return result.rows.map(row => row.id);
+  }
+}
+
+module.exports = SyncApi;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
