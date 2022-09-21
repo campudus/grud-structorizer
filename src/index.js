@@ -693,6 +693,16 @@ function grudStructorizer(baseUrl, options) {
 
     /**
      *
+     * @param [hidden=true] {boolean}
+     * @returns {ColumnBuilder}
+     */
+    hidden(hidden) {
+      this.column.hidden = (typeof hidden === "boolean" ? hidden : true);
+      return this;
+    }
+
+    /**
+     *
      * @param toTable {Table|number}
      * @returns {ColumnBuilder}
      */
