@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.9.5
+
+* added method `.hidden` to `ColumnBuilder`
+* added method `.minLength` to `ColumnBuilder`
+* added method `.maxLength` to `ColumnBuilder`
+
 ## 1.9.4
 
 * replaced old lib/syncApi.js by the new case-sensitive version lib/SyncApi.js

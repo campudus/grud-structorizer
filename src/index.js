@@ -102,7 +102,7 @@ function grudStructorizer(baseUrl, options) {
      * @returns {Table}
      */
     find(tableName) {
-      const table = _.find(this.tables, {name: tableName});
+      const table = _.find(this.tables, { name: tableName });
 
       if (table) {
         return new Table(table.id, table.name);
@@ -333,7 +333,7 @@ function grudStructorizer(baseUrl, options) {
      */
     createRowByObj(columnNameToValueObject) {
 
-      const {columnIds, values} = this.getValuesFromCreateRowByObj(columnNameToValueObject);
+      const { columnIds, values } = this.getValuesFromCreateRowByObj(columnNameToValueObject);
 
       return this.createRows([values], columnIds)[0];
     }
@@ -396,7 +396,7 @@ function grudStructorizer(baseUrl, options) {
 
       const column = this.getColumn(columnName);
 
-      const {ordering, kind, identifier, displayName, description, multilanguage} = _.find(this.columns, {name: columnName});
+      const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(this.columns, { name: columnName });
 
       const languages = StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
@@ -408,13 +408,13 @@ function grudStructorizer(baseUrl, options) {
         throw new Error("Column is already multi language");
       }
 
-      const columnIndex = _.findIndex(this.columns, {name: columnName});
+      const columnIndex = _.findIndex(this.columns, { name: columnName });
 
-      this.changeColumn(column.id, {name: columnName + "_convert_language"});
+      this.changeColumn(column.id, { name: columnName + "_convert_language" });
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).multilanguage(true),
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(true),
       );
 
       _.forEach(this.rows, row => {
@@ -457,7 +457,7 @@ function grudStructorizer(baseUrl, options) {
       this.fetch();
 
       const column = this.getColumn(columnName);
-      const {ordering, kind, identifier, displayName, description, multilanguage} = _.find(this.columns, {name: columnName});
+      const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(this.columns, { name: columnName });
 
       const languages = StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
@@ -469,13 +469,13 @@ function grudStructorizer(baseUrl, options) {
         throw new Error("Column is already single language");
       }
 
-      const columnIndex = _.findIndex(this.columns, {name: columnName});
+      const columnIndex = _.findIndex(this.columns, { name: columnName });
 
-      this.changeColumn(column.id, {name: columnName + "_convert_language"});
+      this.changeColumn(column.id, { name: columnName + "_convert_language" });
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).multilanguage(false),
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(false),
       );
 
       _.forEach(this.rows, row => {
@@ -488,7 +488,7 @@ function grudStructorizer(baseUrl, options) {
           return;
         }
 
-        tableaux.doCall("PATCH", url, {value: newValue});
+        tableaux.doCall("PATCH", url, { value: newValue });
 
         if (_.includes(annotations, columnIndex)) {
           // there schould be not more than one translation flag per cell
@@ -698,6 +698,26 @@ function grudStructorizer(baseUrl, options) {
      */
     hidden(hidden) {
       this.column.hidden = (typeof hidden === "boolean" ? hidden : true);
+      return this;
+    }
+
+    /**
+     *
+     * @param maxLength {number}
+     * @returns {ColumnBuilder}
+     */
+    maxLength(length) {
+      this.column.maxLength = length;
+      return this;
+    }
+
+    /**
+     *
+     * @param minLength {number}
+     * @returns {ColumnBuilder}
+     */
+    minLength(length) {
+      this.column.minLength = length;
       return this;
     }
 

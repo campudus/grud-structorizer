@@ -1,6 +1,6 @@
 {
   "name": "grud-structorizer",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "description": "Core library for building schemas",
   "main": "lib/index.js",
   "types": "./lib/types.d.ts",
@@ -16,7 +16,7 @@
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch",
     "jsdoc": "jsdoc -c ./.jdoc.json -r -R README.md -t ./node_modules/docdash/ -d ./docs ./src",
-    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/ -d ./lib ./src"
+    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./lib ./src"
   },
   "repository": {
     "type": "git",
@@ -47,9 +47,9 @@
     "eslint-plugin-promise": "3.6.0",
     "eslint-plugin-standard": "3.0.1",
     "jest": "22.2.2",
-    "jsdoc": "3.5.5",
+    "jsdoc": "3.6.3",
     "source-map-support": "0.5.3",
-    "tsd-jsdoc": "2.0.0-beta.3"
+    "tsd-jsdoc": "2.5.0"
   },
   "dependencies": {
     "lodash": "4.17.21",
