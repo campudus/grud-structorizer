@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.6
+
+* added type `"taxonomy"` to `TableBuilder`
+
 ## 1.9.5
 
 * added method `.hidden` to `ColumnBuilder`
