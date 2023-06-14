@@ -554,10 +554,12 @@ function grudStructorizer(baseUrl, options) {
      * @param type {("generic"|"settings")}
      */
     constructor(name, type) {
+      const ALLOWED_TYPES = ["generic", "settings", "taxonomy"];
+
       this.name = name;
       this._groupId = null;
 
-      if (type === "generic" || type === "settings") {
+      if (ALLOWED_TYPES.includes(type)) {
         this.type = type;
       } else {
         throw new Error("invalid table type");
