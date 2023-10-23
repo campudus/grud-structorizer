@@ -1,7 +1,8 @@
 "use strict";
 
-const request = require("sync-request");
 const _ = require("lodash");
+const fetch = require("node-fetch");
+const request = require("sync-request");
 
 /**
  * @typedef {object} SyncApiOptions
@@ -24,6 +25,15 @@ class SyncApi {
     this.headers = _.get(options, ["headers"], {});
   }
 
+  _getRequestHeaders() {
+    return {
+      "Cookie": _.map(this.cookies, ({value}, name) => {
+        return name + "=" + value || "undefined";
+      }).join("; "),
+      ...this.headers
+    };
+  }
+
   /**
    *
    * @param method {string}
@@ -32,21 +42,42 @@ class SyncApi {
    * @param [nonce] {string}
    */
   doCall(method, url, json, nonce) {
+    const fullUrl = this.baseUrl + url;
+
     const options = {
-      headers: {
-        "Cookie": _.map(this.cookies, (cookieObj, cookieName) => {
-          return cookieName + "=" + cookieObj.value || "undefined";
-        }).join("; "),
-        ...this.headers
-      },
+      headers: this._getRequestHeaders(),
       json: json,
       qs: {
         nonce: nonce
       }
     };
 
-    const response = request(method, this.baseUrl + url, options).getBody("utf-8");
+    const response = request(method, fullUrl, options).getBody("utf-8");
+
     return JSON.parse(response);
+  }
+
+  /**
+   *
+   * @param method {string}
+   * @param url {string}
+   * @param [json] {object}
+   * @param [nonce] {string}
+   */
+  async doAsyncCall(method, url, json, nonce) {
+    const fullUrl = nonce
+      ? this.baseUrl + url + "?" + new URLSearchParams({nonce})
+      : this.baseUrl + url;
+
+    const options = {
+      method: method,
+      headers: this._getRequestHeaders(),
+      body: json ? JSON.stringify(json) : undefined
+    };
+
+    const response = await fetch(fullUrl, options);
+
+    return response.json();
   }
 
   /**

@@ -5,6 +5,7 @@ declare type SyncApiOptions = {
 declare class SyncApi {
     constructor(baseUrl: string, options: SyncApiOptions);
     doCall(method: string, url: string, json?: any, nonce?: string): void;
+    doAsyncCall(method: string, url: string, json?: any, nonce?: string): void;
     resetSchema(nonce: string): void;
     fetchTable(tableId: number, includeRows?: boolean): void;
     /**

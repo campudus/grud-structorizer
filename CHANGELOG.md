@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.7
+
+* added method `.doAsyncCall` to `SyncApi`
+
 ## 1.9.6
 
 * added type `"taxonomy"` to `TableBuilder`
