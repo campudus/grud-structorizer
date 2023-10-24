@@ -1,37 +1,22 @@
 "use strict";
 
-const _ = require("lodash");
-const fetch = require("node-fetch");
 const request = require("sync-request");
 
-/**
- * @typedef {object} SyncApiOptions
- * @property cookies {object}
- */
+const Api = require("./Api");
 
 /**
  *
  */
-class SyncApi {
+class SyncApi extends Api {
 
   /**
    *
    * @param baseUrl {string}
-   * @param options {SyncApiOptions}
+   * @param options {ApiOptions}
    */
+  // eslint-disable-next-line no-useless-constructor
   constructor(baseUrl, options) {
-    this.baseUrl = baseUrl;
-    this.cookies = _.get(options, ["cookies"], {});
-    this.headers = _.get(options, ["headers"], {});
-  }
-
-  _getRequestHeaders() {
-    return {
-      "Cookie": _.map(this.cookies, ({value}, name) => {
-        return name + "=" + value || "undefined";
-      }).join("; "),
-      ...this.headers
-    };
+    super(baseUrl, options);
   }
 
   /**
@@ -55,29 +40,6 @@ class SyncApi {
     const response = request(method, fullUrl, options).getBody("utf-8");
 
     return JSON.parse(response);
-  }
-
-  /**
-   *
-   * @param method {string}
-   * @param url {string}
-   * @param [json] {object}
-   * @param [nonce] {string}
-   */
-  async doAsyncCall(method, url, json, nonce) {
-    const fullUrl = nonce
-      ? this.baseUrl + url + "?" + new URLSearchParams({nonce})
-      : this.baseUrl + url;
-
-    const options = {
-      method: method,
-      headers: this._getRequestHeaders(),
-      body: json ? JSON.stringify(json) : undefined
-    };
-
-    const response = await fetch(fullUrl, options);
-
-    return response.json();
   }
 
   /**

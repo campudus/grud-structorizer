@@ -2,7 +2,7 @@
 
 ## 1.9.7
 
-* added method `.doAsyncCall` to `SyncApi`
+* added `AsyncApi` to implement the async version of the `.doCall` method
 
 ## 1.9.6
 

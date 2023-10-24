@@ -1,11 +1,19 @@
-declare type SyncApiOptions = {
+declare type ApiOptions = {
     cookies: any;
 };
 
-declare class SyncApi {
-    constructor(baseUrl: string, options: SyncApiOptions);
+declare class Api {
+    constructor(baseUrl: string, options: ApiOptions);
+}
+
+declare class AsyncApi {
+    constructor(baseUrl: string, options: ApiOptions);
     doCall(method: string, url: string, json?: any, nonce?: string): void;
-    doAsyncCall(method: string, url: string, json?: any, nonce?: string): void;
+}
+
+declare class SyncApi {
+    constructor(baseUrl: string, options: ApiOptions);
+    doCall(method: string, url: string, json?: any, nonce?: string): void;
     resetSchema(nonce: string): void;
     fetchTable(tableId: number, includeRows?: boolean): void;
     /**
