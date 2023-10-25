@@ -26,7 +26,17 @@ declare class SyncApi {
     createRows(tableId: any, columnIds: any, rows: any): void;
 }
 
-declare function grudStructorizer(baseUrl: string, options: any): any;
+declare type GRUDStructorizer = {
+    api: SyncApi;
+    asyncApi: AsyncApi;
+    Table: Table;
+    Tables: Tables;
+    TableBuilder: TableBuilder;
+    ColumnBuilder: ColumnBuilder;
+    ConstraintBuilder: ConstraintBuilder;
+};
+
+declare function grudStructorizer(baseUrl: string, options: any): GRUDStructorizer;
 
 declare class Tables {
     /**
@@ -89,12 +99,14 @@ declare class Table {
     createRows(rows: any[][], columns: number[]): number[];
     /**
      * Convenient method to change a single language column to multi language
-     * @param pickLanguage - language in which raw values should be inserted (default: "first language of '/system/settings/langtags'")
+     * @param pickLanguage - language in which raw values should be inserted (default: "first language of
+     *   '/system/settings/langtags'")
      */
     convertColumnToMultilanguage(columnName: string, pickLanguage: string): void;
     /**
      * Convenient method to change a multi language column to single language
-     * @param pickLanguage - language from which values are taken as new values (default: first language of '/system/settings/langtags')
+     * @param pickLanguage - language from which values are taken as new values (default: first language of
+     *   '/system/settings/langtags')
      */
     convertColumnToSinglelanguage(columnName: string, pickLanguage: string): void;
 }

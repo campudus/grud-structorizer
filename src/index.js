@@ -45,18 +45,21 @@ function argumentsToMultiLanguageObj(argsObj) {
 }
 
 /**
+ * @typedef {object} GRUDStructorizer
+ * @property api {SyncApi}
+ * @property asyncApi {AsyncApi}
+ * @property Table {Table}
+ * @property Tables {Tables}
+ * @property TableBuilder {TableBuilder}
+ * @property ColumnBuilder {ColumnBuilder}
+ * @property ConstraintBuilder {ConstraintBuilder}
+ */
+
+/**
  *
  *  @param baseUrl {string}
  *  @param options {object}
- *  @returns {{
- *    api: SyncApi,
- *    asyncApi: AsyncApi,
- *    Table: Table,
- *    Tables: Tables,
- *    TableBuilder: TableBuilder,
- *    ColumnBuilder: ColumnBuilder,
- *    ConstraintBuilder: ConstraintBuilder
- *  }}
+ *  @returns {GRUDStructorizer}
  */
 function grudStructorizer(baseUrl, options) {
 
@@ -399,7 +402,8 @@ function grudStructorizer(baseUrl, options) {
      * Convenient method to change a single language column to multi language
      *
      * @param columnName {string}
-     * @param pickLanguage language in which raw values should be inserted (default: "first language of '/system/settings/langtags'") {string}
+     * @param pickLanguage language in which raw values should be inserted (default: "first language of
+     *   '/system/settings/langtags'") {string}
      */
     convertColumnToMultilanguage(columnName, pickLanguage) {
       this.fetch();
@@ -461,7 +465,8 @@ function grudStructorizer(baseUrl, options) {
     /**
      * Convenient method to change a multi language column to single language
      * @param columnName {string}
-     * @param pickLanguage language from which values are taken as new values (default: first language of '/system/settings/langtags') {string}
+     * @param pickLanguage language from which values are taken as new values (default: first language of
+     *   '/system/settings/langtags') {string}
      */
     convertColumnToSinglelanguage(columnName, pickLanguage) {
       this.fetch();
