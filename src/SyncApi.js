@@ -1,27 +1,22 @@
 "use strict";
 
 const request = require("sync-request");
-const _ = require("lodash");
 
-/**
- * @typedef {object} SyncApiOptions
- * @property cookies {object}
- */
+const Api = require("./Api");
 
 /**
  *
  */
-class SyncApi {
+class SyncApi extends Api {
 
   /**
    *
    * @param baseUrl {string}
-   * @param options {SyncApiOptions}
+   * @param options {ApiOptions}
    */
+  // eslint-disable-next-line no-useless-constructor
   constructor(baseUrl, options) {
-    this.baseUrl = baseUrl;
-    this.cookies = _.get(options, ["cookies"], {});
-    this.headers = _.get(options, ["headers"], {});
+    super(baseUrl, options);
   }
 
   /**
@@ -32,20 +27,18 @@ class SyncApi {
    * @param [nonce] {string}
    */
   doCall(method, url, json, nonce) {
+    const fullUrl = this.baseUrl + url;
+
     const options = {
-      headers: {
-        "Cookie": _.map(this.cookies, (cookieObj, cookieName) => {
-          return cookieName + "=" + cookieObj.value || "undefined";
-        }).join("; "),
-        ...this.headers
-      },
+      headers: this._getRequestHeaders(),
       json: json,
       qs: {
         nonce: nonce
       }
     };
 
-    const response = request(method, this.baseUrl + url, options).getBody("utf-8");
+    const response = request(method, fullUrl, options).getBody("utf-8");
+
     return JSON.parse(response);
   }
 

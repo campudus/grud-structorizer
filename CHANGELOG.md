@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.7
+
+* added `AsyncApi` to implement the async version of the `.doCall` method
+
 ## 1.9.6
 
 * added type `"taxonomy"` to `TableBuilder`
