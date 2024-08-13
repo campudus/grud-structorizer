@@ -141,9 +141,11 @@ declare class ColumnBuilder {
     hidden(hidden?: boolean): ColumnBuilder;
     maxLength(maxLength: number): ColumnBuilder;
     minLength(minLength: number): ColumnBuilder;
+    decimalDigits(decimalDigits: number): ColumnBuilder;
     simpleLink(toTable: Table | number): ColumnBuilder;
     link(toTable: Table | number): ColumnBuilder;
     groups(groups: number[]): ColumnBuilder;
+    showMemberColumns(showMemberColumns: boolean): ColumnBuilder;
     formatPattern(formatPattern: string): ColumnBuilder;
     toName(toName: string): ColumnBuilder;
     /**
@@ -160,7 +162,7 @@ declare class ColumnBuilder {
 
 declare type ConstraintCardinality = any;
 
-declare type ConstraintDeleteCascade = any;
+declare type ConstraintFinalCascade = any;
 
 declare class ConstraintBuilder {
     static cardinalityOneToOne(): ConstraintCardinality;
@@ -168,5 +170,7 @@ declare class ConstraintBuilder {
     static cardinalityManyToOne(): ConstraintCardinality;
     static cardinality(from: number, to: number): ConstraintCardinality;
     static deleteCascade(deleteCascade: boolean): ConstraintDeleteCascade;
+    static archiveCascade(archiveCascade: boolean): ConstraintArchiveCascade;
+    static finalCascade(finalCascade: boolean): ConstraintFinalCascade;
 }
 

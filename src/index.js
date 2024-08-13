@@ -740,6 +740,25 @@ function grudStructorizer(baseUrl, options) {
 
     /**
      *
+     * @param decimalDigits {number}
+     * @returns {ColumnBuilder}
+     */
+    decimalDigits(decimalDigits) {
+      if (this.column.kind !== "numeric") {
+        throw new Error("column " + this.column.name + " should be of type numeric to set 'decimalDigits(...)'");
+      }
+
+      if (!_.isInteger(decimalDigits) || decimalDigits < 0) {
+        throw new Error("parameter 'decimalDigits' should be a positive integer number");
+      }
+
+      this.column.decimalDigits = decimalDigits;
+
+      return this;
+    }
+
+    /**
+     *
      * @param toTable {Table|number}
      * @returns {ColumnBuilder}
      */
@@ -789,6 +808,19 @@ function grudStructorizer(baseUrl, options) {
       this.column.groups = groups;
 
       return this;
+    }
+
+    /**
+     *
+     * @param showMemberColumns {boolean}
+     * @returns {ColumnBuilder}
+     */
+    showMemberColumns(showMemberColumns) {
+      if (this.column.kind !== "group") {
+        throw new Error("column " + this.column.name + " should be of type 'group' to set 'showMemberColumns(...)'");
+      }
+
+      this.column.showMemberColumns = _.isBoolean(showMemberColumns) ? showMemberColumns : true;
     }
 
     /**
@@ -911,6 +943,8 @@ function grudStructorizer(baseUrl, options) {
 
   /**
    * @typedef {{deleteCascade: boolean}} ConstraintDeleteCascade
+   * @typedef {{archiveCascade: boolean}} ConstraintArchiveCascade
+   * @typedef {{finalCascade: boolean}} ConstraintFinalCascade
    */
 
   /**
@@ -964,6 +998,28 @@ function grudStructorizer(baseUrl, options) {
     static deleteCascade(deleteCascade) {
       return {
         deleteCascade: _.isBoolean(deleteCascade) ? deleteCascade : true
+      };
+    }
+
+    /**
+     *
+     * @param archiveCascade {boolean}
+     * @returns {ConstraintArchiveCascade}
+     */
+    static archiveCascade(archiveCascade) {
+      return {
+        archiveCascade: _.isBoolean(archiveCascade) ? archiveCascade : true
+      };
+    }
+
+    /**
+     *
+     * @param finalCascade {boolean}
+     * @returns {ConstraintFinalCascade}
+     */
+    static finalCascade(finalCascade) {
+      return {
+        finalCascade: _.isBoolean(finalCascade) ? finalCascade : true
       };
     }
   }

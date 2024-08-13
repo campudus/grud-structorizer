@@ -1,5 +1,12 @@
 # Release Notes
 
+## 1.9.8
+
+* added method `.archiveCascade` to `ConstraintBuilder`
+* added method `.finalCascade` to `ConstraintBuilder`
+* added method `.decimalDigits` to `ColumnBuilder`
+* added method `.showMemberColumns` to `ColumnBuilder`
+
 ## 1.9.7
 
 * added `AsyncApi` to implement the async version of the `.doCall` method
