@@ -943,7 +943,13 @@ function grudStructorizer(baseUrl, options) {
 
   /**
    * @typedef {{deleteCascade: boolean}} ConstraintDeleteCascade
+   */
+
+  /**
    * @typedef {{archiveCascade: boolean}} ConstraintArchiveCascade
+   */
+
+  /**
    * @typedef {{finalCascade: boolean}} ConstraintFinalCascade
    */
 
