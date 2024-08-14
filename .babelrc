@@ -1,14 +1,10 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
-        "targets": {
-          "browsers": ["last 2 versions"]
-        }
+        "targets": ["last 2 versions"]
       }
-    ],
-    "stage-0"
-  ],
-  "plugins": ["babel-plugin-add-module-exports"]
+    ]
+  ]
 }

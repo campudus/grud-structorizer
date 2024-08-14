@@ -1,5 +1,6 @@
 {
-  "parser": "babel-eslint",
+  "root": true,
+  "parser": "@babel/eslint-parser",
 
   "parserOptions": {
     "ecmaVersion": 7,
@@ -10,6 +11,8 @@
     "sourceType": "module"
   },
 
+  "ignorePatterns": ["lib/*", "docs/*", "*.spec.js*"],
+
   "env": {
     "browser": true,
     "es6": true,
@@ -19,7 +22,6 @@
   },
 
   "plugins": [
-    "standard",
     "promise",
     "jest"
   ],
@@ -152,10 +154,6 @@
     "wrap-iife": ["error", "any", { "functionPrototypeMethods": true }],
     "yield-star-spacing": ["error", "both"],
     "yoda": ["error", "never"],
-
-    "standard/object-curly-even-spacing": ["error", "either"],
-    "standard/array-bracket-even-spacing": ["error", "either"],
-    "standard/computed-property-even-spacing": ["error", "even"],
 
     "promise/param-names": "error",
 
