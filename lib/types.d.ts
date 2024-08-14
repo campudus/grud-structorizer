@@ -178,3 +178,4 @@ declare class ConstraintBuilder {
     static finalCascade(finalCascade: boolean): ConstraintFinalCascade;
 }
 
+export { grudStructorizer as default };

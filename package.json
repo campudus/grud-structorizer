@@ -16,7 +16,7 @@
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch",
     "jsdoc": "jsdoc -c ./.jdoc.json -r -R README.md -t ./node_modules/docdash/ -d ./docs ./src",
-    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./lib ./src"
+    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./lib ./src && echo 'export { grudStructorizer as default };' >> ./lib/types.d.ts"
   },
   "repository": {
     "type": "git",
