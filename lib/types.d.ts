@@ -162,6 +162,10 @@ declare class ColumnBuilder {
 
 declare type ConstraintCardinality = any;
 
+declare type ConstraintDeleteCascade = any;
+
+declare type ConstraintArchiveCascade = any;
+
 declare type ConstraintFinalCascade = any;
 
 declare class ConstraintBuilder {
@@ -174,3 +178,4 @@ declare class ConstraintBuilder {
     static finalCascade(finalCascade: boolean): ConstraintFinalCascade;
 }
 
+export { grudStructorizer as default };
