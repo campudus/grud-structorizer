@@ -821,6 +821,8 @@ function grudStructorizer(baseUrl, options) {
       }
 
       this.column.showMemberColumns = _.isBoolean(showMemberColumns) ? showMemberColumns : true;
+
+      return this;
     }
 
     /**

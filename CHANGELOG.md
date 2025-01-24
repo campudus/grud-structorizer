@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.9
+
+* fixed `ColumnBuilder.showMemberColumns` method to return the `ColumnBuilder` instance
+
 ## 1.9.8
 
 * added method `.archiveCascade` to `ConstraintBuilder`
