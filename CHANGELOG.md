@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.0.1
+
+* fixed `ColumnBuilder.showMemberColumns` method to return the `ColumnBuilder` instance
+
 ## 2.0.0
 
 * **BREAKING CHANGE:** Upgraded Node to v20 and Babel to v7. This might break your build process if you are using an older version of Node or Babel.
