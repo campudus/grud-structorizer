@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import SyncApi from "./SyncApi.js";
+import Api from "./Api.js";
 
 function argumentsToMultiLanguageObj(argsObj) {
   const args = _.toArray(argsObj);
@@ -43,7 +43,7 @@ function argumentsToMultiLanguageObj(argsObj) {
 
 /**
  * @typedef {object} GRUDStructorizer
- * @property api {SyncApi}
+ * @property api {Api}
  * @property Table {Table}
  * @property Tables {Tables}
  * @property TableBuilder {TableBuilder}
@@ -58,7 +58,7 @@ function argumentsToMultiLanguageObj(argsObj) {
  *  @returns {GRUDStructorizer}
  */
 function grudStructorizer(baseUrl, options) {
-  const api = new SyncApi(baseUrl, options);
+  const api = new Api(baseUrl, options);
 
   const StaticHelpers = {
     async getLanguages() {

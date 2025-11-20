@@ -4,15 +4,6 @@ declare type ApiOptions = {
 
 declare class Api {
     constructor(baseUrl: string, options: ApiOptions);
-}
-
-declare class AsyncApi {
-    constructor(baseUrl: string, options: ApiOptions);
-    doCall(method: string, url: string, json?: any, nonce?: string): void;
-}
-
-declare class SyncApi {
-    constructor(baseUrl: string, options: ApiOptions);
     doCall(method: string, url: string, json?: any, nonce?: string): void;
     resetSchema(nonce: string): void;
     fetchTable(tableId: number, includeRows?: boolean): void;
@@ -27,8 +18,7 @@ declare class SyncApi {
 }
 
 declare type GRUDStructorizer = {
-    api: SyncApi;
-    asyncApi: AsyncApi;
+    api: Api;
     Table: Table;
     Tables: Tables;
     TableBuilder: TableBuilder;
