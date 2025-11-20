@@ -1,9 +1,7 @@
-"use strict";
+import _ from "lodash";
 
-const _ = require("lodash");
-
-const AsyncApi = require("./AsyncApi");
-const SyncApi = require("./SyncApi");
+import AsyncApi from "./AsyncApi.js";
+import SyncApi from "./SyncApi.js";
 
 function argumentsToMultiLanguageObj(argsObj) {
   const args = _.toArray(argsObj);
@@ -1045,4 +1043,4 @@ function grudStructorizer(baseUrl, options) {
   };
 }
 
-module.exports = grudStructorizer;
+export default grudStructorizer;

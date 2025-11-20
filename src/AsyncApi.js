@@ -1,8 +1,4 @@
-"use strict";
-
-const fetch = require("node-fetch");
-
-const Api = require("./Api");
+import Api from "./Api.js";
 
 /**
  *
@@ -43,4 +39,4 @@ class AsyncApi extends Api {
   }
 }
 
-module.exports = AsyncApi;
+export default AsyncApi;

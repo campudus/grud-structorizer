@@ -1,8 +1,6 @@
-"use strict";
+import request from "sync-request";
 
-const request = require("sync-request");
-
-const Api = require("./Api");
+import Api from "./Api.js";
 
 /**
  *
@@ -170,4 +168,4 @@ class SyncApi extends Api {
   }
 }
 
-module.exports = SyncApi;
+export default SyncApi;

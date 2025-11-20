@@ -1,6 +1,4 @@
-"use strict";
-
-const _ = require("lodash");
+import _ from "lodash";
 
 /**
  * @typedef {object} ApiOptions
@@ -34,4 +32,4 @@ class Api {
   }
 }
 
-module.exports = Api;
+export default Api;
