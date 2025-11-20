@@ -28,7 +28,7 @@ describe("Table", () => {
     defaultTable.rows = rows;
   });
 
-  it("should not run on exception 'column '0' is not defined in table'", () => {
+  it("should not run on exception 'column '0' is not defined in table'", async () => {
     const table = new Table(1, "testTable");
 
     const col1 = new ColumnBuilder("length", "numeric");
@@ -118,64 +118,64 @@ beforeEach(() => {
 });
 
 describe("Table convert to single language (single)", () => {
-  it("should throw error for unknown column name", () => {
-    expect(() => convertTable.convertColumnToSinglelanguage("unknown_column")).toThrow(
+  it("should throw error for unknown column name", async () => {
+    await expect(convertTable.convertColumnToSinglelanguage("unknown_column")).rejects.toThrow(
       "Column name 'unknown_column' does not exist"
     );
   });
 
-  it("should throw error for unknown language (single)", () => {
-    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
+  it("should throw error for unknown language (single)", async () => {
+    StaticHelpers.getLanguages = vi.fn(async () => ["de", "en"]);
 
-    expect(() => convertTable.convertColumnToSinglelanguage("name_multi", "very_special_language")).toThrow(
+    await expect(convertTable.convertColumnToSinglelanguage("name_multi", "very_special_language")).rejects.toThrow(
       "Language 'very_special_language' not in '/system/settings/langtags'"
     );
   });
 
-  it("should throw error for invalid type (single)", () => {
-    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
+  it("should throw error for invalid type (single)", async () => {
+    StaticHelpers.getLanguages = vi.fn(async () => ["de", "en"]);
 
-    expect(() => convertTable.convertColumnToSinglelanguage("number", "de")).toThrow(
+    await expect(convertTable.convertColumnToSinglelanguage("number", "de")).rejects.toThrow(
       "Column must be of kind 'shorttext' or 'text'"
     );
   });
 
-  it("should throw error because it's already single language (single)", () => {
-    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
+  it("should throw error because it's already single language (single)", async () => {
+    StaticHelpers.getLanguages = vi.fn(async () => ["de", "en"]);
 
-    expect(() => convertTable.convertColumnToSinglelanguage("name_single", "de")).toThrow(
+    await expect(convertTable.convertColumnToSinglelanguage("name_single", "de")).rejects.toThrow(
       "Column is already single language"
     );
   });
 });
 
 describe("Table convert to multi language", () => {
-  it("should throw error for unknown column name (multi)", () => {
-    expect(() => convertTable.convertColumnToMultilanguage("unknown_column")).toThrow(
+  it("should throw error for unknown column name (multi)", async () => {
+    await expect(convertTable.convertColumnToMultilanguage("unknown_column")).rejects.toThrow(
       "Column name 'unknown_column' does not exist"
     );
   });
 
-  it("should throw error for unknown language (multi)", () => {
-    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
+  it("should throw error for unknown language (multi)", async () => {
+    StaticHelpers.getLanguages = vi.fn(async () => ["de", "en"]);
 
-    expect(() => convertTable.convertColumnToMultilanguage("name_multi", "very_special_language")).toThrow(
+    await expect(convertTable.convertColumnToMultilanguage("name_multi", "very_special_language")).rejects.toThrow(
       "Language 'very_special_language' not in '/system/settings/langtags'"
     );
   });
 
-  it("should throw error for invalid type (multi)", () => {
-    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
+  it("should throw error for invalid type (multi)", async () => {
+    StaticHelpers.getLanguages = vi.fn(async () => ["de", "en"]);
 
-    expect(() => convertTable.convertColumnToMultilanguage("number", "de")).toThrow(
+    await expect(convertTable.convertColumnToMultilanguage("number", "de")).rejects.toThrow(
       "Column must be of kind 'shorttext' or 'text'"
     );
   });
 
-  it("should throw error because it's already multi language (multi)", () => {
-    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
+  it("should throw error because it's already multi language (multi)", async () => {
+    StaticHelpers.getLanguages = vi.fn(async () => ["de", "en"]);
 
-    expect(() => convertTable.convertColumnToMultilanguage("name_multi", "de")).toThrow(
+    await expect(convertTable.convertColumnToMultilanguage("name_multi", "de")).rejects.toThrow(
       "Column is already multi language"
     );
   });

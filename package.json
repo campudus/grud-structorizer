@@ -45,7 +45,6 @@
     "vitest": "^4.0.12"
   },
   "dependencies": {
-    "lodash": "4.17.21",
-    "sync-request": "6.1.0"
+    "lodash": "4.17.21"
   }
 }

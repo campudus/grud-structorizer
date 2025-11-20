@@ -1,5 +1,3 @@
-import request from "sync-request";
-
 import Api from "./Api.js";
 
 /**
@@ -23,27 +21,25 @@ class SyncApi extends Api {
    * @param [json] {object}
    * @param [nonce] {string}
    */
-  doCall(method, url, json, nonce) {
-    const fullUrl = this.baseUrl + url;
+  async doCall(method, url, json, nonce) {
+    const fullUrl = nonce ? this.baseUrl + url + "?" + new URLSearchParams({ nonce }) : this.baseUrl + url;
 
     const options = {
+      method: method,
       headers: this._getRequestHeaders(),
-      json: json,
-      qs: {
-        nonce: nonce
-      }
+      body: json ? JSON.stringify(json) : undefined
     };
 
-    const response = request(method, fullUrl, options).getBody("utf-8");
+    const response = await fetch(fullUrl, options);
 
-    return JSON.parse(response);
+    return response.json();
   }
 
   /**
    *
    * @param nonce {string}
    */
-  resetSchema(nonce) {
+  async resetSchema(nonce) {
     return this.doCall("POST", "/system/reset", undefined, nonce);
   }
 
@@ -52,24 +48,24 @@ class SyncApi extends Api {
    * @param tableId {number}
    * @param [includeRows=false] {boolean}
    */
-  fetchTable(tableId, includeRows = false) {
+  async fetchTable(tableId, includeRows = false) {
     if (typeof tableId !== "number") {
       throw new Error("parameter 'tableId' should be a number");
     }
 
-    const table = this.doCall("GET", "/tables/" + tableId);
+    const table = await this.doCall("GET", "/tables/" + tableId);
 
     delete table["id"];
     delete table["status"];
 
-    const columns = this.doCall("GET", "/tables/" + tableId + "/columns");
+    const columns = await this.doCall("GET", "/tables/" + tableId + "/columns");
 
     delete columns["status"];
 
     Object.assign(table, columns);
 
     if (includeRows) {
-      const rows = this.doCall("GET", "/tables/" + tableId + "/rows");
+      const rows = await this.doCall("GET", "/tables/" + tableId + "/rows");
 
       delete rows["page"];
       delete rows["status"];
@@ -89,7 +85,7 @@ class SyncApi extends Api {
    * @param group {number}
    * @returns {object}
    */
-  createTable(name, hidden, displayName, type, group) {
+  async createTable(name, hidden, displayName, type, group) {
     const json = {
       name: name,
       hidden: typeof hidden === "boolean" ? hidden : false
@@ -115,12 +111,12 @@ class SyncApi extends Api {
    * @param tableId
    * @param columnObjArray
    */
-  createColumns(tableId, columnObjArray) {
+  async createColumns(tableId, columnObjArray) {
     const json = {
       columns: columnObjArray
     };
 
-    return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns;
+    return (await this.doCall("POST", "/tables/" + tableId + "/columns", json)).columns;
   }
 
   /**
@@ -128,12 +124,12 @@ class SyncApi extends Api {
    * @param tableId
    * @param columnObject
    */
-  createColumn(tableId, columnObject) {
+  async createColumn(tableId, columnObject) {
     const json = {
       columns: [columnObject]
     };
 
-    return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns[0];
+    return (await this.doCall("POST", "/tables/" + tableId + "/columns", json)).columns[0];
   }
 
   /**
@@ -143,8 +139,8 @@ class SyncApi extends Api {
    * @param values
    * @returns {*}
    */
-  createRow(tableId, columnIds, values) {
-    return this.createRows(tableId, columnIds, [values])[0];
+  async createRow(tableId, columnIds, values) {
+    return (await this.createRows(tableId, columnIds, [values]))[0];
   }
 
   /**
@@ -153,13 +149,13 @@ class SyncApi extends Api {
    * @param columnIds
    * @param rows
    */
-  createRows(tableId, columnIds, rows) {
+  async createRows(tableId, columnIds, rows) {
     const json = {
       columns: columnIds.map((columnId) => ({ id: columnId })),
       rows: rows.map((rowValues) => ({ values: rowValues }))
     };
 
-    const result = this.doCall("POST", "/tables/" + tableId + "/rows", json);
+    const result = await this.doCall("POST", "/tables/" + tableId + "/rows", json);
 
     return result.rows.map((row) => row.id);
   }

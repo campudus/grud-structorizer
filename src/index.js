@@ -1,6 +1,5 @@
 import _ from "lodash";
 
-import AsyncApi from "./AsyncApi.js";
 import SyncApi from "./SyncApi.js";
 
 function argumentsToMultiLanguageObj(argsObj) {
@@ -45,7 +44,6 @@ function argumentsToMultiLanguageObj(argsObj) {
 /**
  * @typedef {object} GRUDStructorizer
  * @property api {SyncApi}
- * @property asyncApi {AsyncApi}
  * @property Table {Table}
  * @property Tables {Tables}
  * @property TableBuilder {TableBuilder}
@@ -60,12 +58,11 @@ function argumentsToMultiLanguageObj(argsObj) {
  *  @returns {GRUDStructorizer}
  */
 function grudStructorizer(baseUrl, options) {
-  const syncApi = new SyncApi(baseUrl, options);
-  const asyncApi = new AsyncApi(baseUrl, options);
+  const api = new SyncApi(baseUrl, options);
 
   const StaticHelpers = {
-    getLanguages: () => {
-      return syncApi.doCall("GET", "/system/settings/langtags").value;
+    async getLanguages() {
+      return (await api.doCall("GET", "/system/settings/langtags")).value;
     },
 
     checkKindForLanguageConversion: (kind) => {
@@ -99,8 +96,8 @@ function grudStructorizer(baseUrl, options) {
      *
      * @returns {Tables}
      */
-    fetch() {
-      Object.assign(this, syncApi.doCall("GET", "/tables"));
+    async fetch() {
+      Object.assign(this, await api.doCall("GET", "/tables"));
       return this;
     }
 
@@ -155,8 +152,8 @@ function grudStructorizer(baseUrl, options) {
      * @param includeRows retrieves rows (default: false) {boolean}
      * @returns {Table}
      */
-    fetch(includeRows = false) {
-      Object.assign(this, syncApi.fetchTable(this.tableId, includeRows));
+    async fetch(includeRows = false) {
+      Object.assign(this, await api.fetchTable(this.tableId, includeRows));
       return this;
     }
 
@@ -231,7 +228,7 @@ function grudStructorizer(baseUrl, options) {
      * @param columnBuilderArray {Array.<ConstraintBuilder>}
      * @returns {Array.<Column>}
      */
-    createColumns(columnBuilderArray) {
+    async createColumns(columnBuilderArray) {
       if (typeof this.tableId === "undefined") {
         throw new Error("table " + this.name + " should be created first");
       }
@@ -256,7 +253,7 @@ function grudStructorizer(baseUrl, options) {
         });
       });
 
-      const newColumns = syncApi.createColumns(this.tableId, columnObjArray);
+      const newColumns = await api.createColumns(this.tableId, columnObjArray);
 
       newColumns.forEach(function (newColumn) {
         self.columns.push(newColumn);
@@ -269,14 +266,14 @@ function grudStructorizer(baseUrl, options) {
      *
      * @param nameOrId {string|number}
      */
-    deleteColumn(nameOrId) {
+    async deleteColumn(nameOrId) {
       const column = this.findColumn(nameOrId);
 
       if (!column) {
         throw new Error("No column with this name or ID found '" + nameOrId + "'");
       }
 
-      const response = syncApi.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
+      const response = await api.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
 
       if (response) {
         _.remove(this.columns, function (c) {
@@ -290,7 +287,7 @@ function grudStructorizer(baseUrl, options) {
      * @param columnBuilder {ColumnBuilder}
      * @return {number} column id
      */
-    createColumn(columnBuilder) {
+    async createColumn(columnBuilder) {
       if (typeof this.tableId === "undefined") {
         throw new Error("table " + this.name + " should be created first");
       }
@@ -309,7 +306,7 @@ function grudStructorizer(baseUrl, options) {
         }
       });
 
-      const newColumn = syncApi.createColumn(this.tableId, columnBuilder.build());
+      const newColumn = await api.createColumn(this.tableId, columnBuilder.build());
 
       this.columns.push(newColumn);
 
@@ -349,20 +346,20 @@ function grudStructorizer(baseUrl, options) {
      * @param columnNameToValueObject {object}
      * @returns {number} row id
      */
-    createRowByObj(columnNameToValueObject) {
+    async createRowByObj(columnNameToValueObject) {
       const { columnIds, values } = this.getValuesFromCreateRowByObj(columnNameToValueObject);
 
-      return this.createRows([values], columnIds)[0];
+      return (await this.createRows([values], columnIds))[0];
     }
 
     /**
      *
      * @returns {number} row id
      */
-    createRow() {
+    async createRow() {
       // convert arguments to array and
       // hand it over to createRows with just one row
-      return this.createRows([_.toArray(arguments)])[0];
+      return (await this.createRows([_.toArray(arguments)]))[0];
     }
 
     /**
@@ -371,7 +368,7 @@ function grudStructorizer(baseUrl, options) {
      * @param columns {Array.<number>}
      * @returns {Array.<number>} array of row ids
      */
-    createRows(rows, columns) {
+    async createRows(rows, columns) {
       if (typeof this.tableId === "undefined") {
         throw new Error("table should be created first");
       }
@@ -388,11 +385,11 @@ function grudStructorizer(baseUrl, options) {
       // generate IDs based on rowValues length
       const columnIds = columns || _.range(1, firstRowValues.length + 1);
 
-      return syncApi.createRows(this.tableId, columnIds, rows);
+      return await api.createRows(this.tableId, columnIds, rows);
     }
 
     changeColumn(columnId, changeObj) {
-      return syncApi.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, changeObj);
+      return api.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, changeObj);
     }
 
     getColumn(columnName) {
@@ -409,8 +406,8 @@ function grudStructorizer(baseUrl, options) {
      * @param pickLanguage language in which raw values should be inserted (default: "first language of
      *   '/system/settings/langtags'") {string}
      */
-    convertColumnToMultilanguage(columnName, pickLanguage) {
-      this.fetch();
+    async convertColumnToMultilanguage(columnName, pickLanguage) {
+      await this.fetch();
 
       const column = this.getColumn(columnName);
 
@@ -419,7 +416,7 @@ function grudStructorizer(baseUrl, options) {
         { name: columnName }
       );
 
-      const languages = StaticHelpers.getLanguages();
+      const languages = await StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
 
       StaticHelpers.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
@@ -431,10 +428,10 @@ function grudStructorizer(baseUrl, options) {
 
       const columnIndex = _.findIndex(this.columns, { name: columnName });
 
-      this.changeColumn(column.id, { name: columnName + "_convert_language" });
-      this.fetch(true);
+      await this.changeColumn(column.id, { name: columnName + "_convert_language" });
+      await this.fetch(true);
 
-      const newColumnId = this.createColumn(
+      const newColumnId = await this.createColumn(
         new ColumnBuilder(columnName, kind)
           .displayName(displayName)
           .identifier(identifier)
@@ -445,13 +442,13 @@ function grudStructorizer(baseUrl, options) {
           .multilanguage(true)
       );
 
-      _.forEach(this.rows, (row) => {
+      for (const row of this.rows) {
         const { id: rowId, values } = row;
         const value = values[columnIndex];
         const url = "/tables/" + this.tableId + "/columns/" + newColumnId + "/rows/" + rowId;
 
         if (!value) {
-          return;
+          continue;
         }
 
         const mapValueIntoLanguage = (value, lang) => {
@@ -464,16 +461,16 @@ function grudStructorizer(baseUrl, options) {
 
         const newValue = mapValueIntoLanguage(value, pickLanguage || defaultLanguage);
 
-        syncApi.doCall("PATCH", url, newValue);
+        await api.doCall("PATCH", url, newValue);
 
-        syncApi.doCall("POST", `${url}/annotations`, {
+        await api.doCall("POST", `${url}/annotations`, {
           langtags: languages,
           type: "flag",
           value: "needs_translation"
         });
-      });
+      }
 
-      syncApi.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
+      await api.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
     }
 
     /**
@@ -482,8 +479,8 @@ function grudStructorizer(baseUrl, options) {
      * @param pickLanguage language from which values are taken as new values (default: first language of
      *   '/system/settings/langtags') {string}
      */
-    convertColumnToSinglelanguage(columnName, pickLanguage) {
-      this.fetch();
+    async convertColumnToSinglelanguage(columnName, pickLanguage) {
+      await this.fetch();
 
       const column = this.getColumn(columnName);
       const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(
@@ -491,7 +488,7 @@ function grudStructorizer(baseUrl, options) {
         { name: columnName }
       );
 
-      const languages = StaticHelpers.getLanguages();
+      const languages = await StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
 
       StaticHelpers.checkLanguageForLanguageConversion(languages, pickLanguage || defaultLanguage);
@@ -503,10 +500,10 @@ function grudStructorizer(baseUrl, options) {
 
       const columnIndex = _.findIndex(this.columns, { name: columnName });
 
-      this.changeColumn(column.id, { name: columnName + "_convert_language" });
-      this.fetch(true);
+      await this.changeColumn(column.id, { name: columnName + "_convert_language" });
+      await this.fetch(true);
 
-      const newColumnId = this.createColumn(
+      const newColumnId = await this.createColumn(
         new ColumnBuilder(columnName, kind)
           .displayName(displayName)
           .identifier(identifier)
@@ -517,29 +514,29 @@ function grudStructorizer(baseUrl, options) {
           .multilanguage(false)
       );
 
-      _.forEach(this.rows, (row) => {
+      for (const row of this.rows) {
         const { id: rowId, values, annotations } = row;
 
         const newValue = _.get(values[columnIndex], pickLanguage || defaultLanguage);
         const url = "/tables/" + this.tableId + "/columns/" + newColumnId + "/rows/" + rowId;
 
         if (!newValue) {
-          return;
+          continue;
         }
 
-        syncApi.doCall("PATCH", url, { value: newValue });
+        await api.doCall("PATCH", url, { value: newValue });
 
         if (_.includes(annotations, columnIndex)) {
           // there schould be not more than one translation flag per cell
           const langAnnotation = _.head(_.filter(annotations[columnIndex], { value: "needs_translation" }));
 
           if (langAnnotation) {
-            syncApi.doCall("DELETE", `${url}/annotations/${langAnnotation.uuid}`);
+            await api.doCall("DELETE", `${url}/annotations/${langAnnotation.uuid}`);
           }
         }
-      });
+      }
 
-      syncApi.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
+      await api.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
     }
   }
 
@@ -603,8 +600,8 @@ function grudStructorizer(baseUrl, options) {
      *
      * @returns {Table}
      */
-    create() {
-      const tableId = syncApi.createTable(this.name, this._hidden, this._displayName, this.type, this._groupId).id;
+    async create() {
+      const tableId = (await api.createTable(this.name, this._hidden, this._displayName, this.type, this._groupId)).id;
 
       return new Table(tableId, this.name);
     }
@@ -1058,8 +1055,7 @@ function grudStructorizer(baseUrl, options) {
   }
 
   return {
-    api: syncApi,
-    asyncApi: asyncApi,
+    api: api,
 
     Table: Table,
     Tables: Tables,
