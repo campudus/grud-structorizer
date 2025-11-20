@@ -1,4 +1,6 @@
-const structorizer = require("../index")("http://localhost:8181");
+import structorizerFactory from "../index.js";
+
+const structorizer = structorizerFactory("http://localhost:8181");
 const ColumnBuilder = structorizer.ColumnBuilder;
 const Table = structorizer.Table;
 

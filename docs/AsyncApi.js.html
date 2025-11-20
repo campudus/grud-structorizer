@@ -45,11 +45,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>"use strict";
-
-const fetch = require("node-fetch");
-
-const Api = require("./Api");
+            <pre class="prettyprint source linenums"><code>import Api from "./Api.js";
 
 /**
  *
@@ -90,7 +86,7 @@ class AsyncApi extends Api {
   }
 }
 
-module.exports = AsyncApi;
+export default AsyncApi;
 </code></pre>
         </article>
     </section>

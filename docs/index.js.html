@@ -45,12 +45,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>"use strict";
+            <pre class="prettyprint source linenums"><code>import _ from "lodash";
 
-const _ = require("lodash");
-
-const AsyncApi = require("./AsyncApi");
-const SyncApi = require("./SyncApi");
+import AsyncApi from "./AsyncApi.js";
+import SyncApi from "./SyncApi.js";
 
 function argumentsToMultiLanguageObj(argsObj) {
   const args = _.toArray(argsObj);
@@ -475,7 +473,7 @@ function grudStructorizer(baseUrl, options) {
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(true),
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(true)
       );
 
       _.forEach(this.rows, row => {
@@ -537,7 +535,7 @@ function grudStructorizer(baseUrl, options) {
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(false),
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(false)
       );
 
       _.forEach(this.rows, row => {
@@ -1092,7 +1090,7 @@ function grudStructorizer(baseUrl, options) {
   };
 }
 
-module.exports = grudStructorizer;
+export default grudStructorizer;
 </code></pre>
         </article>
     </section>

@@ -1,4 +1,7 @@
-const structorizer = require("../index")("http://localhost:8181");
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import structorizerFactory from "../index.js";
+
+const structorizer = structorizerFactory("http://localhost:8181");
 
 const ColumnBuilder = structorizer.ColumnBuilder;
 const Table = structorizer.Table;
@@ -91,7 +94,7 @@ beforeEach(() => {
   convertTable.rows = rows;
 
   // mock fetchTable
-  structorizer.api.fetchTable = jest.fn();
+  structorizer.api.fetchTable = vi.fn();
 });
 
 describe("Table convert to single language (single)", () => {
@@ -101,19 +104,19 @@ describe("Table convert to single language (single)", () => {
   });
 
   it("should throw error for unknown language (single)", () => {
-    StaticHelpers.getLanguages = jest.fn(() => ["de", "en"]);
+    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
 
     expect(() => convertTable.convertColumnToSinglelanguage("name_multi", "very_special_language")).toThrow("Language 'very_special_language' not in '/system/settings/langtags'");
   });
 
   it("should throw error for invalid type (single)", () => {
-    StaticHelpers.getLanguages = jest.fn(() => ["de", "en"]);
+    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
 
     expect(() => convertTable.convertColumnToSinglelanguage("number", "de")).toThrow("Column must be of kind 'shorttext' or 'text'");
   });
 
   it("should throw error because it's already single language (single)", () => {
-    StaticHelpers.getLanguages = jest.fn(() => ["de", "en"]);
+    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
 
     expect(() => convertTable.convertColumnToSinglelanguage("name_single", "de")).toThrow("Column is already single language");
   });
@@ -126,19 +129,19 @@ describe("Table convert to multi language", () => {
   });
 
   it("should throw error for unknown language (multi)", () => {
-    StaticHelpers.getLanguages = jest.fn(() => ["de", "en"]);
+    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
 
     expect(() => convertTable.convertColumnToMultilanguage("name_multi", "very_special_language")).toThrow("Language 'very_special_language' not in '/system/settings/langtags'");
   });
 
   it("should throw error for invalid type (multi)", () => {
-    StaticHelpers.getLanguages = jest.fn(() => ["de", "en"]);
+    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
 
     expect(() => convertTable.convertColumnToMultilanguage("number", "de")).toThrow("Column must be of kind 'shorttext' or 'text'");
   });
 
   it("should throw error because it's already multi language (multi)", () => {
-    StaticHelpers.getLanguages = jest.fn(() => ["de", "en"]);
+    StaticHelpers.getLanguages = vi.fn(() => ["de", "en"]);
 
     expect(() => convertTable.convertColumnToMultilanguage("name_multi", "de")).toThrow("Column is already multi language");
   });

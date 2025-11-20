@@ -426,7 +426,7 @@ function grudStructorizer(baseUrl, options) {
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(true),
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(true)
       );
 
       _.forEach(this.rows, row => {
@@ -488,7 +488,7 @@ function grudStructorizer(baseUrl, options) {
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(false),
+        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(false)
       );
 
       _.forEach(this.rows, row => {
