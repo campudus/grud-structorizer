@@ -11,7 +11,8 @@ This Version includes several changes for a more modern JavaScript/TypeScript de
 - replaced jest with faster more modern vitest
 - added Prettier for consistent code formatting (integrated with ESLint)
 - removed `node-fetch` - using native global `fetch` (Node 18+)
-- changed npm script `prepublishOnly` to `build` because this is doing all the necessary steps to prepare the change for publishing via git.
+- changed npm script `prepublishOnly` to `build` because this is doing all the necessary steps to prepare the change for publishing via git
+- removed `sync-request` dependency and all synchronous blocking calls - now all operations are async using `async/await` and native `fetch` API
 
 ## 2.0.1
 

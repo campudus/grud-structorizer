@@ -1,6 +1,6 @@
 # grud-structorizer
 
-Small synchronous JS SDK for building GRUD schemas
+Async JS SDK for building GRUD schemas
 
 ## Documentation
 
@@ -31,25 +31,27 @@ Currently we supports the following options:
 ## Example
 
 ```javascript
-const grudStructorizer = require("grud-structorizer");
+import grudStructorizer from "grud-structorizer";
 
 const options = {};
 const structorizer = grudStructorizer("http://localhost:8181", options);
 
-const TableBuilder = structorizer.TableBuilder;
-const ColumnBuilder = structorizer.ColumnBuilder;
-const ConstraintBuilder = structorizer.ConstraintBuilder;
+const { TableBuilder, ColumnBuilder, ConstraintBuilder } = structorizer;
 
-const newTable = new TableBuilder("newTable", "generic").displayName("de", "Neue Tabelle", "en", "New table").create();
+const newTable = await new TableBuilder("newTable", "generic")
+  .displayName("de", "Neue Tabelle", "en", "New table")
+  .create();
 
-newTable.createColumns([new ColumnBuilder("rowIdentifier", "shorttext").displayName("de", "Name").identifier()]);
+await newTable.createColumns([
+  new ColumnBuilder("rowIdentifier", "shorttext")
+    .displayName("de", "Name")
+    .identifier()
+]);
 
-newTable.createRowByObj({ rowIdentifier: "Test" });
+await newTable.createRowByObj({ rowIdentifier: "Test" });
 ```
 
 ## Development
-
-[!NOTE] Tests execution is slow because of pkg `sync-request`. This package causes a hanging process that vitest cannot terminate automatically. Therefore, we set the teardownTimeout in vitest.config.js to 1s to give some time to terminate the process after tests (better than 10s).
 
 ### Making Changes
 
