@@ -53,7 +53,6 @@ import Api from "./Api.js";
  *
  */
 class SyncApi extends Api {
-
   /**
    *
    * @param baseUrl {string}
@@ -139,8 +138,8 @@ class SyncApi extends Api {
    */
   createTable(name, hidden, displayName, type, group) {
     const json = {
-      "name": name,
-      "hidden": (typeof hidden === "boolean" ? hidden : false)
+      name: name,
+      hidden: typeof hidden === "boolean" ? hidden : false
     };
 
     if (displayName &amp;&amp; typeof displayName === "object") {
@@ -165,7 +164,7 @@ class SyncApi extends Api {
    */
   createColumns(tableId, columnObjArray) {
     const json = {
-      "columns": columnObjArray
+      columns: columnObjArray
     };
 
     return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns;
@@ -178,9 +177,7 @@ class SyncApi extends Api {
    */
   createColumn(tableId, columnObject) {
     const json = {
-      "columns": [
-        columnObject
-      ]
+      columns: [columnObject]
     };
 
     return this.doCall("POST", "/tables/" + tableId + "/columns", json).columns[0];
@@ -205,13 +202,13 @@ class SyncApi extends Api {
    */
   createRows(tableId, columnIds, rows) {
     const json = {
-      "columns": columnIds.map(columnId => ({"id": columnId})),
-      "rows": rows.map(rowValues => ({"values": rowValues}))
+      columns: columnIds.map((columnId) => ({ id: columnId })),
+      rows: rows.map((rowValues) => ({ values: rowValues }))
     };
 
     const result = this.doCall("POST", "/tables/" + tableId + "/rows", json);
 
-    return result.rows.map(row => row.id);
+    return result.rows.map((row) => row.id);
   }
 }
 

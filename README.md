@@ -16,41 +16,35 @@ Currently we supports the following options:
 
   ```javascript
   // expressjs session cookie via cookies
-  const option = { "cookies": { "connect.sid": { "value":"s%3Al...PWgk;" } } }
+  const option = { cookies: { "connect.sid": { value: "s%3Al...PWgk;" } } };
   ```
 
 - **headers** allows to pass headers for requests
 
   ```javascript
   // expressjs session cookie via headers
-  const option = { "headers": { "Cookie": "connect.sid=s%3Al...PWgk;" } }
+  const option = { headers: { Cookie: "connect.sid=s%3Al...PWgk;" } };
   // OAuth 2.0 bearer token
-  const option = { "headers": { "Authorization": "Bearer eyJhbG...ciOiJSUz" } }
+  const option = { headers: { Authorization: "Bearer eyJhbG...ciOiJSUz" } };
   ```
 
 ## Example
 
 ```javascript
-const grudStructorizer = require('grud-structorizer');
+const grudStructorizer = require("grud-structorizer");
 
-const options = { };
+const options = {};
 const structorizer = grudStructorizer("http://localhost:8181", options);
 
 const TableBuilder = structorizer.TableBuilder;
 const ColumnBuilder = structorizer.ColumnBuilder;
 const ConstraintBuilder = structorizer.ConstraintBuilder;
 
-const newTable = new TableBuilder("newTable", "generic")
-  .displayName("de", "Neue Tabelle", "en", "New table")
-  .create();
+const newTable = new TableBuilder("newTable", "generic").displayName("de", "Neue Tabelle", "en", "New table").create();
 
-newTable.createColumns([
-  new ColumnBuilder("rowIdentifier", "shorttext")
-    .displayName("de", "Name")
-    .identifier()
-]);
+newTable.createColumns([new ColumnBuilder("rowIdentifier", "shorttext").displayName("de", "Name").identifier()]);
 
-newTable.createRowByObj({rowIdentifier: "Test"});
+newTable.createRowByObj({ rowIdentifier: "Test" });
 ```
 
 ## Changelog

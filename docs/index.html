@@ -71,39 +71,33 @@
 <li>
 <p><strong>cookies</strong> allows to pass a cookie header as object for requests</p>
 <pre class="prettyprint source lang-javascript"><code>// expressjs session cookie via cookies
-const option = { &quot;cookies&quot;: { &quot;connect.sid&quot;: { &quot;value&quot;:&quot;s%3Al...PWgk;&quot; } } }
+const option = { cookies: { &quot;connect.sid&quot;: { value: &quot;s%3Al...PWgk;&quot; } } };
 </code></pre>
 </li>
 <li>
 <p><strong>headers</strong> allows to pass headers for requests</p>
 <pre class="prettyprint source lang-javascript"><code>// expressjs session cookie via headers
-const option = { &quot;headers&quot;: { &quot;Cookie&quot;: &quot;connect.sid=s%3Al...PWgk;&quot; } }
+const option = { headers: { Cookie: &quot;connect.sid=s%3Al...PWgk;&quot; } };
 // OAuth 2.0 bearer token
-const option = { &quot;headers&quot;: { &quot;Authorization&quot;: &quot;Bearer eyJhbG...ciOiJSUz&quot; } }
+const option = { headers: { Authorization: &quot;Bearer eyJhbG...ciOiJSUz&quot; } };
 </code></pre>
 </li>
 </ul>
 <h2>Example</h2>
-<pre class="prettyprint source lang-javascript"><code>const grudStructorizer = require('grud-structorizer');
+<pre class="prettyprint source lang-javascript"><code>const grudStructorizer = require(&quot;grud-structorizer&quot;);
 
-const options = { };
+const options = {};
 const structorizer = grudStructorizer(&quot;http://localhost:8181&quot;, options);
 
 const TableBuilder = structorizer.TableBuilder;
 const ColumnBuilder = structorizer.ColumnBuilder;
 const ConstraintBuilder = structorizer.ConstraintBuilder;
 
-const newTable = new TableBuilder(&quot;newTable&quot;, &quot;generic&quot;)
-  .displayName(&quot;de&quot;, &quot;Neue Tabelle&quot;, &quot;en&quot;, &quot;New table&quot;)
-  .create();
+const newTable = new TableBuilder(&quot;newTable&quot;, &quot;generic&quot;).displayName(&quot;de&quot;, &quot;Neue Tabelle&quot;, &quot;en&quot;, &quot;New table&quot;).create();
 
-newTable.createColumns([
-  new ColumnBuilder(&quot;rowIdentifier&quot;, &quot;shorttext&quot;)
-    .displayName(&quot;de&quot;, &quot;Name&quot;)
-    .identifier()
-]);
+newTable.createColumns([new ColumnBuilder(&quot;rowIdentifier&quot;, &quot;shorttext&quot;).displayName(&quot;de&quot;, &quot;Name&quot;).identifier()]);
 
-newTable.createRowByObj({rowIdentifier: &quot;Test&quot;});
+newTable.createRowByObj({ rowIdentifier: &quot;Test&quot; });
 </code></pre>
 <h2>Changelog</h2>
 <p>See <a href="https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>

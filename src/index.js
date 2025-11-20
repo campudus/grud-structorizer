@@ -60,7 +60,6 @@ function argumentsToMultiLanguageObj(argsObj) {
  *  @returns {GRUDStructorizer}
  */
 function grudStructorizer(baseUrl, options) {
-
   const syncApi = new SyncApi(baseUrl, options);
   const asyncApi = new AsyncApi(baseUrl, options);
 
@@ -88,7 +87,6 @@ function grudStructorizer(baseUrl, options) {
    *
    */
   class Tables {
-
     /**
      *
      */
@@ -174,14 +172,11 @@ function grudStructorizer(baseUrl, options) {
       if (!this.columns || !this.rows) {
         throw new Error("Fetch table and rows first");
       }
-      return _.map(
-        this.rows,
-        (row) => {
-          const obj = _.zipObject(_.map(this.columns, "name"), row.values);
-          obj.rowId = row.id;
-          return obj;
-        }
-      );
+      return _.map(this.rows, (row) => {
+        const obj = _.zipObject(_.map(this.columns, "name"), row.values);
+        obj.rowId = row.id;
+        return obj;
+      });
     }
 
     /**
@@ -250,7 +245,13 @@ function grudStructorizer(baseUrl, options) {
       columnObjArray.forEach(function (columnObject) {
         self.columns.forEach(function (column) {
           if (column.name === columnObject.name) {
-            throw new Error("column " + columnObject.name + " can't be created because its name " + columnObject.name + " is already used");
+            throw new Error(
+              "column " +
+                columnObject.name +
+                " can't be created because its name " +
+                columnObject.name +
+                " is already used"
+            );
           }
         });
       });
@@ -298,7 +299,13 @@ function grudStructorizer(baseUrl, options) {
 
       this.columns.forEach(function (column) {
         if (column.name === columnObject.name) {
-          throw new Error("column " + columnObject.name + " can't be created because its name " + columnObject.name + " is already used");
+          throw new Error(
+            "column " +
+              columnObject.name +
+              " can't be created because its name " +
+              columnObject.name +
+              " is already used"
+          );
         }
       });
 
@@ -343,7 +350,6 @@ function grudStructorizer(baseUrl, options) {
      * @returns {number} row id
      */
     createRowByObj(columnNameToValueObject) {
-
       const { columnIds, values } = this.getValuesFromCreateRowByObj(columnNameToValueObject);
 
       return this.createRows([values], columnIds)[0];
@@ -395,7 +401,7 @@ function grudStructorizer(baseUrl, options) {
         throw new Error(`Column name '${columnName}' does not exist`);
       }
       return column;
-    };
+    }
     /**
      * Convenient method to change a single language column to multi language
      *
@@ -408,7 +414,10 @@ function grudStructorizer(baseUrl, options) {
 
       const column = this.getColumn(columnName);
 
-      const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(this.columns, { name: columnName });
+      const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(
+        this.columns,
+        { name: columnName }
+      );
 
       const languages = StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
@@ -426,10 +435,17 @@ function grudStructorizer(baseUrl, options) {
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(true)
+        new ColumnBuilder(columnName, kind)
+          .displayName(displayName)
+          .identifier(identifier)
+          .description(description)
+          .ordering(ordering)
+          .maxLength(maxLength)
+          .minLength(minLength)
+          .multilanguage(true)
       );
 
-      _.forEach(this.rows, row => {
+      _.forEach(this.rows, (row) => {
         const { id: rowId, values } = row;
         const value = values[columnIndex];
         const url = "/tables/" + this.tableId + "/columns/" + newColumnId + "/rows/" + rowId;
@@ -458,7 +474,7 @@ function grudStructorizer(baseUrl, options) {
       });
 
       syncApi.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
-    };
+    }
 
     /**
      * Convenient method to change a multi language column to single language
@@ -470,7 +486,10 @@ function grudStructorizer(baseUrl, options) {
       this.fetch();
 
       const column = this.getColumn(columnName);
-      const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(this.columns, { name: columnName });
+      const { ordering, kind, identifier, displayName, description, multilanguage, maxLength, minLength } = _.find(
+        this.columns,
+        { name: columnName }
+      );
 
       const languages = StaticHelpers.getLanguages();
       const defaultLanguage = _.head(languages);
@@ -488,10 +507,17 @@ function grudStructorizer(baseUrl, options) {
       this.fetch(true);
 
       const newColumnId = this.createColumn(
-        new ColumnBuilder(columnName, kind).displayName(displayName).identifier(identifier).description(description).ordering(ordering).maxLength(maxLength).minLength(minLength).multilanguage(false)
+        new ColumnBuilder(columnName, kind)
+          .displayName(displayName)
+          .identifier(identifier)
+          .description(description)
+          .ordering(ordering)
+          .maxLength(maxLength)
+          .minLength(minLength)
+          .multilanguage(false)
       );
 
-      _.forEach(this.rows, row => {
+      _.forEach(this.rows, (row) => {
         const { id: rowId, values, annotations } = row;
 
         const newValue = _.get(values[columnIndex], pickLanguage || defaultLanguage);
@@ -505,7 +531,7 @@ function grudStructorizer(baseUrl, options) {
 
         if (_.includes(annotations, columnIndex)) {
           // there schould be not more than one translation flag per cell
-          const langAnnotation = _.head(_.filter(annotations[columnIndex], { "value": "needs_translation" }));
+          const langAnnotation = _.head(_.filter(annotations[columnIndex], { value: "needs_translation" }));
 
           if (langAnnotation) {
             syncApi.doCall("DELETE", `${url}/annotations/${langAnnotation.uuid}`);
@@ -521,7 +547,6 @@ function grudStructorizer(baseUrl, options) {
    *
    */
   class TableBuilder {
-
     /**
      *
      * @param name {string}
@@ -596,8 +621,8 @@ function grudStructorizer(baseUrl, options) {
      */
     constructor(name, kind) {
       this.column = {
-        "name": name,
-        "kind": kind
+        name: name,
+        kind: kind
       };
     }
 
@@ -692,7 +717,7 @@ function grudStructorizer(baseUrl, options) {
      * @returns {ColumnBuilder}
      */
     identifier(identifier) {
-      this.column.identifier = (typeof identifier === "boolean" ? identifier : true);
+      this.column.identifier = typeof identifier === "boolean" ? identifier : true;
       return this;
     }
 
@@ -702,7 +727,7 @@ function grudStructorizer(baseUrl, options) {
      * @returns {ColumnBuilder}
      */
     separator(separator) {
-      this.column.separator = (typeof separator === "boolean" ? separator : true);
+      this.column.separator = typeof separator === "boolean" ? separator : true;
       return this;
     }
 
@@ -712,7 +737,7 @@ function grudStructorizer(baseUrl, options) {
      * @returns {ColumnBuilder}
      */
     hidden(hidden) {
-      this.column.hidden = (typeof hidden === "boolean" ? hidden : true);
+      this.column.hidden = typeof hidden === "boolean" ? hidden : true;
       return this;
     }
 
@@ -930,7 +955,9 @@ function grudStructorizer(baseUrl, options) {
 
     build() {
       if (typeof this.column.name !== "string" || typeof this.column.kind !== "string") {
-        throw new Error("at least 'name' (" + this.column.name + ") and 'kind' (" + this.column.kind + ") must be defined");
+        throw new Error(
+          "at least 'name' (" + this.column.name + ") and 'kind' (" + this.column.kind + ") must be defined"
+        );
       }
 
       return this.column;

@@ -53,7 +53,6 @@
  */
 
 class Api {
-
   /**
    *
    * @param baseUrl {string}
@@ -71,7 +70,7 @@ class Api {
 
   _getRequestHeaders() {
     return {
-      "Cookie": _.map(this.cookies, ({value}, name) => {
+      Cookie: _.map(this.cookies, ({ value }, name) => {
         return name + "=" + value || "undefined";
       }).join("; "),
       ...this.headers

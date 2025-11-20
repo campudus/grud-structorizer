@@ -9,9 +9,11 @@
     "lib/"
   ],
   "scripts": {
-    "build": "cp -r src/* lib/ && rm lib/**/*.spec.js 2>/dev/null || true",
+    "build": "mkdir -p lib && cp -r src/* lib/ && rm -rf lib/__tests__ 2>/dev/null",
     "clean": "rm -rf ./lib ./docs",
     "prepublishOnly": "npm run build -s && npm run lint -s && npm run test -s && npm run jsdoc -s && npm run jsdoc:ts -s",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "test": "vitest run",
@@ -36,8 +38,10 @@
   "devDependencies": {
     "docdash": "^2.0.2",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-promise": "^7.1.0",
     "jsdoc": "^3.6.3",
+    "prettier": "^3.6.2",
     "tsd-jsdoc": "^2.5.0",
     "vitest": "^4.0.12"
   },

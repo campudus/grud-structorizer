@@ -4,7 +4,6 @@ import Api from "./Api.js";
  *
  */
 class AsyncApi extends Api {
-
   /**
    *
    * @param baseUrl {string}
@@ -23,9 +22,7 @@ class AsyncApi extends Api {
    * @param [nonce] {string}
    */
   async doCall(method, url, json, nonce) {
-    const fullUrl = nonce
-      ? this.baseUrl + url + "?" + new URLSearchParams({nonce})
-      : this.baseUrl + url;
+    const fullUrl = nonce ? this.baseUrl + url + "?" + new URLSearchParams({ nonce }) : this.baseUrl + url;
 
     const options = {
       method: method,
