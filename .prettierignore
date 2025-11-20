@@ -1,6 +1,6 @@
 node_modules
-lib
 docs
 dist
 .git
 package-lock.json
+src/types.d.ts

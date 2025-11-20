@@ -3,15 +3,14 @@
   "version": "3.0.0",
   "description": "Core library for building schemas",
   "type": "module",
-  "main": "lib/index.js",
-  "types": "./lib/types.d.ts",
+  "main": "./src/index.js",
+  "types": "./src/types.d.ts",
   "files": [
-    "lib/"
+    "src/"
   ],
   "scripts": {
-    "build": "mkdir -p lib && cp -r src/* lib/ && rm -rf lib/__tests__ 2>/dev/null",
-    "clean": "rm -rf ./lib ./docs",
-    "prepublishOnly": "npm run build -s && npm run lint -s && npm run test -s && npm run jsdoc -s && npm run jsdoc:ts -s",
+    "build": "npm run lint -s && npm run format:check -s && npm run test -s && npm run jsdoc -s && npm run jsdoc:ts -s",
+    "clean": "rm -rf ./docs && rm -f ./src/types.d.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint ./src",
@@ -20,7 +19,7 @@
     "test:coverage": "vitest --coverage",
     "test:watch": "vitest --watch",
     "jsdoc": "jsdoc -c ./.jdoc.json -r -R README.md -t ./node_modules/docdash/ -d ./docs ./src",
-    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./lib ./src && echo 'export { grudStructorizer as default };' >> ./lib/types.d.ts"
+    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./src ./src && echo 'export { grudStructorizer as default };' >> ./src/types.d.ts"
   },
   "repository": {
     "type": "git",
