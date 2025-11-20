@@ -99,6 +99,14 @@ newTable.createColumns([new ColumnBuilder(&quot;rowIdentifier&quot;, &quot;short
 
 newTable.createRowByObj({ rowIdentifier: &quot;Test&quot; });
 </code></pre>
+<h2>Development</h2>
+<p>[!NOTE] Tests execution is slow because of pkg <code>sync-request</code>. This package causes a hanging process that vitest cannot terminate automatically. Therefore, we set the teardownTimeout in vitest.config.js to 1s to give some time to terminate the process after tests (better than 10s).</p>
+<h3>Making Changes</h3>
+<ol>
+<li><strong>Edit source files</strong> in <code>src/</code> directory</li>
+<li><strong>Run build</strong> (<code>npm run build</code>) to ensure types and docs are up to date to your changes:</li>
+<li><strong>Publish changes</strong> via git in a new PR</li>
+</ol>
 <h2>Changelog</h2>
 <p>See <a href="https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
 <h2>License</h2>

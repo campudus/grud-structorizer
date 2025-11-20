@@ -1,5 +1,18 @@
 # Release Notes
 
+## 3.0.0
+
+This Version includes several changes for a more modern JavaScript/TypeScript development experience.
+
+- migrated from CommonJS to ES Modules (ESM) - converted all `require()` to `import` statements and `module.exports` to `export` statements
+- removed Babel compilation and dependencies (Node 18+ supports ESM natively)
+- removed `./lib` folder - source files are now the distribution
+- simplified build process - only generates `./docs` and TS type definitions but now in `./src` folder
+- replaced jest with faster more modern vitest
+- added Prettier for consistent code formatting (integrated with ESLint)
+- removed `node-fetch` - using native global `fetch` (Node 18+)
+- changed npm script `prepublishOnly` to `build` because this is doing all the necessary steps to prepare the change for publishing via git.
+
 ## 2.0.1
 
 - fixed `ColumnBuilder.showMemberColumns` method to return the `ColumnBuilder` instance

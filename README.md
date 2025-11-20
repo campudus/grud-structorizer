@@ -47,6 +47,16 @@ newTable.createColumns([new ColumnBuilder("rowIdentifier", "shorttext").displayN
 newTable.createRowByObj({ rowIdentifier: "Test" });
 ```
 
+## Development
+
+[!NOTE] Tests execution is slow because of pkg `sync-request`. This package causes a hanging process that vitest cannot terminate automatically. Therefore, we set the teardownTimeout in vitest.config.js to 1s to give some time to terminate the process after tests (better than 10s).
+
+### Making Changes
+
+1. **Edit source files** in `src/` directory
+2. **Run build** (`npm run build`) to ensure types and docs are up to date to your changes:
+3. **Publish changes** via git in a new PR
+
 ## Changelog
 
 See [CHANGELOG.md](https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md)
