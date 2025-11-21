@@ -24,7 +24,7 @@ export default [
       }
     },
     rules: {
-      camelcase: ["warn", { properties: "always" }],
+      camelcase: ["warn", { properties: "never" }],
       eqeqeq: ["error", "allow-null"],
       "no-constant-condition": ["error", { checkLoops: false }],
       "no-inner-declarations": ["error", "functions"],
