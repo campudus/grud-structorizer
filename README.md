@@ -35,19 +35,12 @@ import grudStructorizer from "grud-structorizer";
 
 const options = {};
 const structorizer = grudStructorizer("http://localhost:8181", options);
-
 const { TableBuilder, ColumnBuilder, ConstraintBuilder } = structorizer;
 
-const newTable = await new TableBuilder("newTable", "generic")
-  .displayName("de", "Neue Tabelle", "en", "New table")
-  .create();
+const tableBuilder = new TableBuilder("newTable", "generic").displayName("de", "Neue Tabelle", "en", "New table");
+const newTable = await tableBuilder.create();
 
-await newTable.createColumns([
-  new ColumnBuilder("rowIdentifier", "shorttext")
-    .displayName("de", "Name")
-    .identifier()
-]);
-
+await newTable.createColumns([new ColumnBuilder("rowIdentifier", "shorttext").displayName("de", "Name").identifier()]);
 await newTable.createRowByObj({ rowIdentifier: "Test" });
 ```
 
@@ -58,6 +51,10 @@ await newTable.createRowByObj({ rowIdentifier: "Test" });
 1. **Edit source files** in `src/` directory
 2. **Run build** (`npm run build`) to ensure types and docs are up to date to your changes:
 3. **Publish changes** via git in a new PR
+
+### Migration Guide from v2.x to v3.0.0
+
+See [migration guide](./migration_v2_to_v3.md) for details.
 
 ## Changelog
 

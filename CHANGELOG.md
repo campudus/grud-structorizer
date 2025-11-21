@@ -14,6 +14,10 @@ This Version includes several changes for a more modern JavaScript/TypeScript de
 - changed npm script `prepublishOnly` to `build` because this is doing all the necessary steps to prepare the change for publishing via git
 - removed `sync-request` dependency and all synchronous blocking calls - now all operations are async using `async/await` and native `fetch` API
 
+### Migration Guide from v2.x to v3.0.0
+
+See [migration guide](./migration_v2_to_v3.md) for details.
+
 ## 2.0.1
 
 - fixed `ColumnBuilder.showMemberColumns` method to return the `ColumnBuilder` instance
