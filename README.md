@@ -54,11 +54,11 @@ await newTable.createRowByObj({ rowIdentifier: "Test" });
 
 ### Migration Guide from v2.x to v3.0.0
 
-See [migration guide](https://github.com/campudus/grud-structorizer/blob/master/migration_v2_to_v3.md) for details.
+See [migration guide](https://github.com/campudus/grud-structorizer/blob/HEAD/migration_v2_to_v3.md) for details.
 
 ## Changelog
 
-See [CHANGELOG.md](https://github.com/campudus/grud-structorizer/blob/master/CHANGELOG.md)
+See [CHANGELOG.md](https://github.com/campudus/grud-structorizer/blob/HEAD/CHANGELOG.md)
 
 ## License
 
