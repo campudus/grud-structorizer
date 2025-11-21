@@ -29,6 +29,7 @@ declare type GRUDStructorizer = {
 declare function grudStructorizer(baseUrl: string, options: any): GRUDStructorizer;
 
 declare class Tables {
+    constructor();
     /**
      * Fetches all tables
      */

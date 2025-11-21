@@ -80,9 +80,6 @@ function grudStructorizer(baseUrl, options) {
     }
   };
 
-  /**
-   *
-   */
   class Tables {
     /**
      *
@@ -121,10 +118,6 @@ function grudStructorizer(baseUrl, options) {
    * @property id {number}
    * @property name {string}
    * @property kind {string}
-   */
-
-  /**
-   *
    */
   class Table {
     /**
@@ -539,10 +532,6 @@ function grudStructorizer(baseUrl, options) {
       await api.doCall("DELETE", "/tables/" + this.tableId + "/columns/" + column.id);
     }
   }
-
-  /**
-   *
-   */
   class TableBuilder {
     /**
      *
@@ -607,9 +596,6 @@ function grudStructorizer(baseUrl, options) {
     }
   }
 
-  /**
-   *
-   */
   class ColumnBuilder {
     /**
      *
