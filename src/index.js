@@ -42,17 +42,6 @@ function argumentsToMultiLanguageObj(argsObj) {
 }
 
 /**
- * @typedef {object} GRUDStructorizer
- * @property api {Api}
- * @property Table {Table}
- * @property Tables {Tables}
- * @property TableBuilder {TableBuilder}
- * @property ColumnBuilder {ColumnBuilder}
- * @property ConstraintBuilder {ConstraintBuilder}
- */
-
-/**
- *
  *  @param baseUrl {string}
  *  @param options {object}
  *  @returns {GRUDStructorizer}
@@ -102,7 +91,7 @@ function grudStructorizer(baseUrl, options) {
      * Searches for a specific table. Fetch tables first
      *
      * @param tableName {string}
-     * @returns {Table}
+     * @returns {Table | undefined}
      */
     find(tableName) {
       const table = _.find(this.tables, { name: tableName });
