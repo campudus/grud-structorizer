@@ -4,17 +4,17 @@ declare type ApiOptions = {
 
 declare class Api {
     constructor(baseUrl: string, options: ApiOptions);
-    doCall(method: string, url: string, json?: any, nonce?: string): void;
-    resetSchema(nonce: string): void;
-    fetchTable(tableId: number, includeRows?: boolean): void;
+    doCall(method: string, url: string, json?: any, nonce?: string): Promise<object>;
+    resetSchema(nonce: string): Promise<void>;
+    fetchTable(tableId: number, includeRows?: boolean): Promise<object | undefined>;
     /**
      * @param displayName - multi-language object
      */
-    createTable(name: string, hidden: boolean, displayName: any, type: string, group: number): any;
-    createColumns(tableId: any, columnObjArray: any): void;
-    createColumn(tableId: any, columnObject: any): void;
-    createRow(tableId: any, columnIds: any, values: any): any;
-    createRows(tableId: any, columnIds: any, rows: any): void;
+    createTable(name: string, hidden: boolean, displayName: any, type: string, group: number): Promise<object>;
+    createColumns(tableId: any, columnObjArray: any): Promise<any[]>;
+    createColumn(tableId: any, columnObject: any): Promise<object>;
+    createRow(tableId: any, columnIds: any, values: any): Promise<number>;
+    createRows(tableId: any, columnIds: any, rows: any): Promise<number[]>;
 }
 
 declare function grudStructorizer(baseUrl: string, options: any): GRUDStructorizer;
@@ -92,7 +92,7 @@ declare class Table {
 }
 
 declare class TableBuilder {
-    constructor(name: string, type: "generic" | "settings");
+    constructor(name: string, type: "generic" | "settings" | "taxonomy");
     /**
      * @param args - one multi-language object or langtag-value list
      */

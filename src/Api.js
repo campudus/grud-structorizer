@@ -35,6 +35,7 @@ class Api {
    * @param url {string}
    * @param [json] {object}
    * @param [nonce] {string}
+   * @returns {Promise<object>}
    */
   async doCall(method, url, json, nonce) {
     const fullUrl = nonce ? this.baseUrl + url + "?" + new URLSearchParams({ nonce }) : this.baseUrl + url;
@@ -53,6 +54,7 @@ class Api {
   /**
    *
    * @param nonce {string}
+   * @returns {Promise<void>}
    */
   async resetSchema(nonce) {
     return this.doCall("POST", "/system/reset", undefined, nonce);
@@ -62,6 +64,7 @@ class Api {
    *
    * @param tableId {number}
    * @param [includeRows=false] {boolean}
+   * @returns {Promise<object|undefined>}
    */
   async fetchTable(tableId, includeRows = false) {
     if (typeof tableId !== "number") {
@@ -98,7 +101,7 @@ class Api {
    * @param displayName {object} multi-language object
    * @param type {string}
    * @param group {number}
-   * @returns {object}
+   * @returns {Promise<object>}
    */
   async createTable(name, hidden, displayName, type, group) {
     const json = {
@@ -125,6 +128,7 @@ class Api {
    *
    * @param tableId
    * @param columnObjArray
+   * @returns {Promise<Array>}
    */
   async createColumns(tableId, columnObjArray) {
     const json = {
@@ -138,6 +142,7 @@ class Api {
    *
    * @param tableId
    * @param columnObject
+   * @returns {Promise<object>}
    */
   async createColumn(tableId, columnObject) {
     const json = {
@@ -152,7 +157,7 @@ class Api {
    * @param tableId
    * @param columnIds
    * @param values
-   * @returns {*}
+   * @returns {Promise<number>}
    */
   async createRow(tableId, columnIds, values) {
     return (await this.createRows(tableId, columnIds, [values]))[0];
@@ -163,6 +168,7 @@ class Api {
    * @param tableId
    * @param columnIds
    * @param rows
+   * @returns {Promise<Array<number>>}
    */
   async createRows(tableId, columnIds, rows) {
     const json = {

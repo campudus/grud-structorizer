@@ -417,7 +417,7 @@ function grudStructorizer(baseUrl, options) {
       return await api.createRows(this.tableId, columnIds, rows);
     }
 
-    changeColumn(columnId, changeObj) {
+    async changeColumn(columnId, changeObj) {
       return api.doCall("POST", "/tables/" + this.tableId + "/columns/" + columnId, changeObj);
     }
 
@@ -572,7 +572,7 @@ function grudStructorizer(baseUrl, options) {
     /**
      *
      * @param name {string}
-     * @param type {("generic"|"settings")}
+     * @param type {("generic"|"settings"|"taxonomy")}
      */
     constructor(name, type) {
       const ALLOWED_TYPES = ["generic", "settings", "taxonomy"];
