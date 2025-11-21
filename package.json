@@ -36,9 +36,9 @@
   "homepage": "https://github.com/campudus/grud-structorizer",
   "devDependencies": {
     "docdash": "^2.0.2",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-promise": "^7.2.1",
     "jsdoc": "^3.6.11",
     "prettier": "^3.6.2",
     "tsd-jsdoc": "^2.5.0",
