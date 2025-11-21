@@ -94,7 +94,7 @@ function grudStructorizer(baseUrl, options) {
     /**
      * Fetches all tables
      *
-     * @returns {Tables}
+     * @returns {Promise<Tables>}
      */
     async fetch() {
       Object.assign(this, await api.doCall("GET", "/tables"));
@@ -149,8 +149,8 @@ function grudStructorizer(baseUrl, options) {
     /**
      * Fetches meta and columns for this Table object.
      *
-     * @param includeRows retrieves rows (default: false) {boolean}
-     * @returns {Table}
+     * @param includeRows {boolean} retrieves rows (default: false)
+     * @returns {Promise<Table>}
      */
     async fetch(includeRows = false) {
       Object.assign(this, await api.fetchTable(this.tableId, includeRows));
@@ -226,7 +226,7 @@ function grudStructorizer(baseUrl, options) {
     /**
      *
      * @param columnBuilderArray {Array.<ConstraintBuilder>}
-     * @returns {Array.<Column>}
+     * @returns {Promise<Array.<Column>>}
      */
     async createColumns(columnBuilderArray) {
       if (typeof this.tableId === "undefined") {
@@ -285,7 +285,7 @@ function grudStructorizer(baseUrl, options) {
     /**
      *
      * @param columnBuilder {ColumnBuilder}
-     * @return {number} column id
+     * @return {Promise<number>} column id
      */
     async createColumn(columnBuilder) {
       if (typeof this.tableId === "undefined") {
@@ -344,7 +344,7 @@ function grudStructorizer(baseUrl, options) {
     /**
      *
      * @param columnNameToValueObject {object}
-     * @returns {number} row id
+     * @returns {Promise<number>} row id
      */
     async createRowByObj(columnNameToValueObject) {
       const { columnIds, values } = this.getValuesFromCreateRowByObj(columnNameToValueObject);
@@ -354,7 +354,7 @@ function grudStructorizer(baseUrl, options) {
 
     /**
      *
-     * @returns {number} row id
+     * @returns {Promise<number>} row id
      */
     async createRow() {
       // convert arguments to array and
@@ -366,7 +366,7 @@ function grudStructorizer(baseUrl, options) {
      *
      * @param rows {Array.<Array.<any>>}
      * @param columns {Array.<number>}
-     * @returns {Array.<number>} array of row ids
+     * @returns {Promise<Array.<number>>} array of row ids
      */
     async createRows(rows, columns) {
       if (typeof this.tableId === "undefined") {
@@ -403,8 +403,8 @@ function grudStructorizer(baseUrl, options) {
      * Convenient method to change a single language column to multi language
      *
      * @param columnName {string}
-     * @param pickLanguage language in which raw values should be inserted (default: "first language of
-     *   '/system/settings/langtags'") {string}
+     * @param pickLanguage {string} language in which raw values should be inserted (default: "first language of '/system/settings/langtags'")
+     * @returns {Promise<void>}
      */
     async convertColumnToMultilanguage(columnName, pickLanguage) {
       await this.fetch();
@@ -476,8 +476,8 @@ function grudStructorizer(baseUrl, options) {
     /**
      * Convenient method to change a multi language column to single language
      * @param columnName {string}
-     * @param pickLanguage language from which values are taken as new values (default: first language of
-     *   '/system/settings/langtags') {string}
+     * @param pickLanguage {string} language from which values are taken as new values (default: first language of '/system/settings/langtags')
+     * @returns {Promise<void>}
      */
     async convertColumnToSinglelanguage(columnName, pickLanguage) {
       await this.fetch();
@@ -598,7 +598,7 @@ function grudStructorizer(baseUrl, options) {
 
     /**
      *
-     * @returns {Table}
+     * @returns {Promise<Table>}
      */
     async create() {
       const tableId = (await api.createTable(this.name, this._hidden, this._displayName, this.type, this._groupId)).id;
