@@ -2,7 +2,7 @@
   "root": true,
   "extends": ["prettier"],
   "parserOptions": { "ecmaVersion": 2024, "sourceType": "module" },
-  "ignorePatterns": ["lib/*", "docs/*", "*.spec.js*"],
+  "ignorePatterns": ["lib/*", "docs/*", "*.spec.js*", "*.d.ts"],
   "env": { "browser": true, "es2024": true, "node": true },
   "plugins": ["promise"],
   "globals": { "document": false, "navigator": false, "window": false },

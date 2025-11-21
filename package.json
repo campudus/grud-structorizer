@@ -39,7 +39,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-promise": "^7.1.0",
-    "jsdoc": "^3.6.3",
+    "jsdoc": "^3.6.11",
     "prettier": "^3.6.2",
     "tsd-jsdoc": "^2.5.0",
     "vitest": "^4.0.12"
