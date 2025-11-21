@@ -16,7 +16,7 @@ This Version includes several changes for a more modern JavaScript/TypeScript de
 
 ### Migration Guide from v2.x to v3.0.0
 
-See [migration guide](./migration_v2_to_v3.md) for details.
+See [migration guide](https://github.com/campudus/grud-structorizer/blob/master/migration_v2_to_v3.md) for details.
 
 ## 2.0.1
 
