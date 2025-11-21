@@ -39,8 +39,6 @@ class Api {
   async doCall(method, url, json, nonce) {
     const fullUrl = nonce ? this.baseUrl + url + "?" + new URLSearchParams({ nonce }) : this.baseUrl + url;
 
-    console.log(`###LOG###: hey ho, we are using the local version, babe!!`);
-
     const options = {
       method: method,
       headers: this._getRequestHeaders(),
