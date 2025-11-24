@@ -19,7 +19,7 @@
     "test:coverage": "vitest --coverage",
     "test:watch": "vitest --watch",
     "jsdoc": "jsdoc -c ./.jdoc.json -r -R README.md -t ./node_modules/docdash/ -d ./docs ./src",
-    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./src ./src && cat ./src/types.footer.d.ts >> ./src/types.d.ts"
+    "jsdoc:ts": "jsdoc -c ./.jdoc.json -r -t ./node_modules/tsd-jsdoc/dist -d ./src ./src && echo 'export { grudStructorizer as default };' >> ./src/types.d.ts"
   },
   "repository": {
     "type": "git",

@@ -42,6 +42,16 @@ function argumentsToMultiLanguageObj(argsObj) {
 }
 
 /**
+ * @typedef {object} GRUDStructorizer
+ * @property api {Api}
+ * @property Table {Table}
+ * @property Tables {Tables}
+ * @property TableBuilder {TableBuilder}
+ * @property ColumnBuilder {ColumnBuilder}
+ * @property ConstraintBuilder {ConstraintBuilder}
+ */
+
+/**
  *  @param baseUrl {string}
  *  @param options {object}
  *  @returns {GRUDStructorizer}
